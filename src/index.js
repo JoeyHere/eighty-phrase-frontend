@@ -22,7 +22,7 @@ const addJoinRoomEvent = () => {
         event.preventDefault()
         let name = event.target.name.value
         let roomCode = event.target.code.value
-        return API.joinRoom(name, roomCode)
+        API.joinRoom(name, roomCode)
             .then(storeUser)
             .then(renderImage)
     })
