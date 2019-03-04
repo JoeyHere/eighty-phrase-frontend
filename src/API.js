@@ -1,0 +1,31 @@
+class API {
+
+    static init() {
+        this.baseURL = 'http://10.218.6.124:3000/api/v1'
+        this.roomURL = this.baseURL + `/rooms`
+        this.userURL = this.baseURL + `/users`
+    }
+
+    static createNewRoom = () => {
+        const options = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }}
+        return fetch(this.roomURL, options)
+            .then(res => res.json())
+    }
+
+    static joinRoom = (name, roomCode) => {
+        const options = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                'name': name,
+                'code': roomCode
+                })
+        }
+        return fetch(this.userURL, options)
+            .then(res => res.json())
+    }
+}
+
+API.init()
