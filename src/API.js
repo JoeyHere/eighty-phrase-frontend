@@ -26,6 +26,16 @@ class API {
         return fetch(this.userURL, options)
             .then(res => res.json())
     }
+
+    static updateRoom = room => {
+        const options = {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(room)
+        }
+        return fetch(`${this.roomURL}/${room.id}`, options)
+            .then(res => res.json())
+    }
 }
 
 API.init()
