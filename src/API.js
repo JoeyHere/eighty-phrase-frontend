@@ -5,6 +5,7 @@ class API {
         this.roomURL = this.baseURL + `/rooms`
         this.userURL = this.baseURL + `/users`
         this.roundURL = this.baseURL + `/rounds`
+        this.eventURL = this.baseURL + `/gameevents`
     }
 
     static createNewRoom = () => {
@@ -38,15 +39,38 @@ class API {
             .then(res => res.json())
     }
 
-    static postNewRound = roomId => {
+    static createNewRound = roomId => {
         const options = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({'roomId': roomId})
+            body: JSON.stringify({'room_id': roomId})
         }
         return fetch(this.roundURL, options)
             .then(res => res.json())
     }
+
+    static getRound = round => {
+        const options = {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},}
+        return fetch(`${this.roundURL}/${round.id}`, options)
+            .then(res => res.json())
+    }
+
+    static createNewEvent = (round, content) => {
+        const options = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'},
+                  body: JSON.stringify({
+                      round_id: round.id,
+                      content: content
+                  })
+              }
+              return fetch(this.eventURL, options)
+                  .then(res => res.json())
+    }
+
 }
 
 API.init()
