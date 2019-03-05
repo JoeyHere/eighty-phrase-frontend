@@ -8,16 +8,20 @@ const footerEl = document.querySelector('#footer')
 document.addEventListener('DOMContentLoaded', () => {
 })
 
+if (STATE_room === undefined) {
+    drawRoomOptions()
+}
+
 
 const addNewUser = (name, roomCode) => {
     return API.joinRoom(name, roomCode)
     .then(storeUser)
 }
 
-const storeRoom = room => {
-    STATE_room = room
-    return STATE_room
-}
+const storeRoom = room => STATE_room = room
+
+const storeUser = user => STATE_user = user
+
 
 const setRoomStatus = (room, status) => {
     room.status = status

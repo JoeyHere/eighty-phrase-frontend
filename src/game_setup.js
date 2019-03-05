@@ -10,16 +10,19 @@ const drawSetupForm = () => {
         event.preventDefault()
         addNewUser(event.target.name.value, STATE_room.code)
     })
+    formContainerEl.querySelector('button.back-btn').addEventListener('click', () => {
+        drawRoomOptions()
+    })
 }
 
-const setupFormHTML = () => {
-    return `
+const setupFormHTML = () => 
+     `  <button class='btn-sm btn-secondary'>< go back</button> 
         <form id='joinRoomForm' >
             <input type = "text" name = "name" placeholder = "Name" >
             <input type = "text" name = "code" placeholder = "Room Code">
-            <input type = "submit" value = "Submit" >
+            <input class="btn-success" type = "submit" value = "Submit" >
         </form>`
-}
+
 
 const drawUserBar = users => users.forEach(drawUserToBar)
 
@@ -35,20 +38,25 @@ const drawUserToBar = user => {
 
 
 const drawRoomOptions = () => {
-    const formOptionsEl = document.createElement('div')
-    const joinBtnEl = document.createElement('button')
-    joinBtnEl.innerText = 'Join Existing'
-    joinBtnEl.addEventListener('click', () => {
-        buildSetupForm()
+    const roomOptionsEl = document.createElement('div')
+    roomOptionsEl.innerHTML = roomOptionHTML
+
+    roomOptionsEl.querySelector('btn-primary').addEventListener('click', () => {
+        drawSetupForm()
     })
-    formOptionsEl.appendChild(joinBtnEl)
-    const createBtnEl = document.createElement('button')
-    createBtnEl.innerText = 'Create New'
-    createBtnEl.addEventListener('click', () => {
+    roomOptionsEl.querySelector('btn-info').addEventListener('click', () => {
         API.createNewRoom().then(storeRoom)
     })
-    formOptionsEl.appendChild(createBtnEl)
     rootEl.innerHTML = ""
     rootEl.appendChild(formOptionsEl)
+}
+
+const roomOptionHTML = () => {
+    `<button class='btn-lg btn-primary'> Join Existing </button>
+    <p>
+        OR
+    </p>
+    <button class='btn-lg btn-info'> Create New </button>
+    `
 }
 
