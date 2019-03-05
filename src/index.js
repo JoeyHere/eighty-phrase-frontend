@@ -6,11 +6,26 @@ const rootEl = document.querySelector('#root')
 const footerEl = document.querySelector('#footer')
 
 document.addEventListener('DOMContentLoaded', () => {
+   gameRouter()
 })
 
-if (STATE_room === undefined) {
-    drawRoomOptions()
+const update = () => {
+    gameRouter()
+    if (STATE_room){ API.getRoom(STATE_room).then(storeRoom) }
 }
+
+// route the game correctly =====
+const gameRouter = () => {
+    if (STATE_room === undefined) {
+        drawRoomOptions()
+    } else {
+        drawRoomLobby()
+        drawUsersBar(STATE_room.users)
+    }
+}
+setInterval(update, 1000 )
+// =====
+
 
 
 const addNewUser = (name, roomCode) => {

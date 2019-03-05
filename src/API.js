@@ -4,7 +4,6 @@ class API {
         this.roomURL = this.baseURL + `/rooms`
         this.userURL = this.baseURL + `/users`
         this.roundURL = this.baseURL + `/rounds`
-        this.eventURL = this.baseURL + `/gameevents`
     }
 
     static createNewRoom = () => {
@@ -13,6 +12,13 @@ class API {
           headers: { 'Content-Type': 'application/json' }}
         return fetch(this.roomURL, options)
             .then(res => res.json())
+    }
+
+    static getRoom = room => {
+        return fetch(`${this.roomURL}/${room.id}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        }).then(res => res.json())
     }
 
     static joinRoom = (name, roomCode) => {
