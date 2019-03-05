@@ -1,5 +1,4 @@
 class API {
-
     static init() {
         this.baseURL = 'http://10.218.1.122:3000/api/v1'
         this.roomURL = this.baseURL + `/rooms`
