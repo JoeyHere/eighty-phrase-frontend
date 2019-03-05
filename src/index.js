@@ -10,9 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const update = () => {
+    //updateClients()
+    //updateHost()
+    
     gameRouter()
-    if (STATE_room){ API.getRoom(STATE_room).then(storeRoom) }
+    if (STATE_room){ API.getRoomById(STATE_room.id).then(storeRoom) }
 }
+setInterval(update, 1000)
 
 // route the game correctly =====
 const gameRouter = () => {
@@ -23,8 +27,7 @@ const gameRouter = () => {
         drawUsersBar(STATE_room.users)
     }
 }
-setInterval(update, 1000)
-// =====
+
 
 
 

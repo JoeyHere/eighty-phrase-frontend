@@ -14,8 +14,8 @@ class API {
             .then(res => res.json())
     }
 
-    static getRoom = room => {
-        return fetch(`${this.roomURL}/${room.id}`, {
+    static getRoomById = roomId => {
+        return fetch(`${this.roomURL}/${roomId}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         }).then(res => res.json())

@@ -9,6 +9,11 @@ const drawSetupForm = () => {
     formEl.addEventListener('submit', event => {
         event.preventDefault()
         addNewUser(event.target.name.value, event.target.code.value)
+            .then(user => {
+                STATE_userType = 'client'
+                API.getRoomById(user.room_id).then(storeRoom)
+                update()
+            })
     })
     formContainerEl.querySelector('.btn-secondary').addEventListener('click', () => {
         drawRoomOptions()
@@ -68,7 +73,8 @@ const drawRoomOptions = () => {
     roomOptionsEl.querySelector('.btn-info').addEventListener('click', () => {
         API.createNewRoom().then(room => {
             storeRoom(room)
-            gameRouter()
+            STATE_userType = 'host'
+            update()
         })
     })
     rootEl.innerHTML = ""
