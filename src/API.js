@@ -1,9 +1,10 @@
 class API {
 
     static init() {
-        this.baseURL = 'http://10.218.6.124:3000/api/v1'
+        this.baseURL = 'http://10.218.1.122:3000/api/v1'
         this.roomURL = this.baseURL + `/rooms`
         this.userURL = this.baseURL + `/users`
+        this.roundURL = this.baseURL + `/rounds`
     }
 
     static createNewRoom = () => {
@@ -34,6 +35,16 @@ class API {
             body: JSON.stringify(room)
         }
         return fetch(`${this.roomURL}/${room.id}`, options)
+            .then(res => res.json())
+    }
+
+    static postNewRound = roomId => {
+        const options = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({'roomId': roomId})
+        }
+        return fetch(this.roundURL, options)
             .then(res => res.json())
     }
 }

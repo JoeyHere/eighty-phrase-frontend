@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const addNewRoomEvent = () => {
     newRoomBtnEl.addEventListener('click', () => {
-        API.createNewRoom()
+        return API.createNewRoom()
             .then(storeRoom)
             .then(showRoomCode)
     })
@@ -22,10 +22,14 @@ const addJoinRoomEvent = () => {
         event.preventDefault()
         let name = event.target.name.value
         let roomCode = event.target.code.value
-        API.joinRoom(name, roomCode)
+        return API.joinRoom(name, roomCode)
             .then(storeUser)
-            .then(renderImage)
     })
+}
+
+const testAddNewUser = (name, roomCode) => {
+    return API.joinRoom(name, roomCode)
+    .then(storeUser)
 }
 
 const showRoomCode = () => {
@@ -43,8 +47,8 @@ const storeUser = user => {
     return currentUser
 }
 
-const toggleRoomStatus = room => {
-    room.active = !room.active
+const setRoomStatus = (room, status) => {
+    room.status = status
     return API.updateRoom(room)
 }
 
