@@ -5,8 +5,8 @@ let STATE_round = undefined
 const rootEl = document.querySelector('#root')
 const footerEl = document.querySelector('#footer')
 
-document.addEventListener('DOMContentLoaded', () => {
-   gameRouter()
+document.addEventListener('DOMContentLoaded', () => { 
+    drawRoomOptions()
 })
 
 const update = () => {
@@ -17,13 +17,13 @@ const update = () => {
 // route the game correctly =====
 const gameRouter = () => {
     if (STATE_room === undefined) {
-        drawRoomOptions()
+       // drawRoomOptions()
     } else {
         drawRoomLobby()
         drawUsersBar(STATE_room.users)
     }
 }
-setInterval(update, 1000 )
+setInterval(update, 1000)
 // =====
 
 
@@ -34,6 +34,8 @@ const addNewUser = (name, roomCode) => {
 }
 
 const storeRoom = room => STATE_room = room
+
+const clearRoomState = () => STATE_room = undefined
 
 const storeUser = user => STATE_user = user
 

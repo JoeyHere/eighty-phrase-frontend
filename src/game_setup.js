@@ -8,7 +8,7 @@ const drawSetupForm = () => {
     const formEl = formContainerEl.querySelector('#joinRoomForm')
     formEl.addEventListener('submit', event => {
         event.preventDefault()
-        addNewUser(event.target.name.value, STATE_room.code)
+        addNewUser(event.target.name.value, event.target.code.value)
     })
     formContainerEl.querySelector('.btn-secondary').addEventListener('click', () => {
         drawRoomOptions()
@@ -23,21 +23,11 @@ const setupFormHTML = () =>
             <input class="btn-success" type = "submit" value = "Submit" >
         </form>`
 
-
-const drawUsersBar = users => users.forEach(drawUserToBar)
-
-const drawRoomLobby = () => {
-    const lobbyEl = document.createElement('div')
-    lobbyEl.innerHTML = lobbyHTML()
-    rootEl.innerHTML = ""
-    rootEl.appendChild(lobbyEl)
+// manages users bar
+const drawUsersBar = users => {
+    footerEl.innerHTML = ''
+    users.forEach(drawUserToBar)
 }
-const lobbyHTML = () => 
-    `<h3> Your Room is ready! </h3>
-    <p> Use room code: </p>
-    <h1>${STATE_room.code}</h1>
-    <button class='btn-lg btn-primary'>Start Game</button>
-    `
 
 const drawUserToBar = user => {
     const userEl = document.createElement('span')
@@ -48,6 +38,25 @@ const drawUserToBar = user => {
     footerEl.appendChild(userEl)
 }
 
+
+const drawRoomLobby = () => {
+    const lobbyEl = document.createElement('div')
+    lobbyEl.innerHTML = lobbyHTML()
+    lobbyEl.querySelector('.btn-secondary').addEventListener('click', () => {
+        clearRoomState()
+        drawRoomOptions()
+    })
+    rootEl.innerHTML = ""
+    rootEl.appendChild(lobbyEl)
+}
+const lobbyHTML = () => 
+    `<h3> Your Room is ready! </h3>
+    <p> Use room code: </p>
+    <h1>${STATE_room.code}</h1>
+    <button class='btn-lg btn-primary'>Start Game</button>
+    <hr>
+    <button class='btn-sm btn-secondary'> < go back</button> 
+    `
 
 const drawRoomOptions = () => {
     const roomOptionsEl = document.createElement('div')
