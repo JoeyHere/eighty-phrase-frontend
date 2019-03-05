@@ -1,8 +1,9 @@
 let STATE_room = undefined
-let STATE_currentUser = undefined
+let STATE_user = undefined
 let STATE_userType = undefined
 let STATE_round = undefined
 const rootEl = document.querySelector('#root')
+const footerEl = document.querySelector('#footer')
 
 document.addEventListener('DOMContentLoaded', () => {
 })

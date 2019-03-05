@@ -21,6 +21,18 @@ const setupFormHTML = () => {
         </form>`
 }
 
+const drawUserBar = users => users.forEach(drawUserToBar)
+
+
+const drawUserToBar = user => {
+    const userEl = document.createElement('span')
+    userEl.innerHTML = `
+        < img src = "https://api.adorable.io/avatars/90/${user.name}.png" >
+        <h2> ${user.name} </h2>
+    `
+    footerEl.appendChild(userEl)
+}
+
 
 const drawRoomOptions = () => {
     const formOptionsEl = document.createElement('div')
