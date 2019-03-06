@@ -54,6 +54,18 @@ class API {
             .then(res => res.json())
     }
 
+    static updateRound = round => {
+        const options = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(round)
+        }
+        return fetch(`${this.roundURL}/${round.id}`, options)
+            .then(res => res.json())
+    }
+
     static getRound = round => {
         const options = {
             method: 'GET',
