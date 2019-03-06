@@ -15,6 +15,14 @@
     justify-content: center;
     align-items: center;
 }
+#header-stats {
+    font-size: 10px;
+}
+
+.country-icon {
+    height: 10px;
+    width: 100%;
+}
 
 .userEl {
     text-align: center;
@@ -32,10 +40,7 @@ html {
 }
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  margin-bottom: 200px;
 }
 
-#header-stats {
-    font-size: 10px;
-}
 

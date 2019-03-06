@@ -25,6 +25,8 @@ const clearState = () => {
 //------- GAME UPDATE LOGIC & ROUTING -------//
 // runs every second and keeps game synced
 const update = () => {
+    globalUpdate()
+
     // run the correct update loop depending on the user type
     globalUpdate()
     if (STATE_userType === 'host'){ hostUpdate() }
@@ -60,7 +62,9 @@ const clientPreGameUpdate = () => {
 const roomStateRefresh = () => API.getRoomById(STATE_room.id).then(storeRoom) //update the room with the latest from the API
 
 // update hosts and clients correctly during game 
-const hostGameUpdate = () => {}
+const hostGameUpdate = () => {
+    drawRoomQuestion()
+}
 const clientGameUpdate = () => {
     drawClientQuestionInput()
 }
@@ -95,5 +99,24 @@ const quit = () => {
     drawRoomOptions()
 }
 
+// manages users bar
+const drawUsersBar = users => {
+    footerEl.innerHTML = ''
+    users.forEach(drawUserToBar)
+}
+
+const drawUserToBar = user => {
+    const userEl = document.createElement('div')
+    userEl.className = 'userEl'
+    userEl.innerHTML = 
+    `<img class='avatar' src = "https://api.adorable.io/avatars/90/${user.name}.png" >
+        <h2> ${user.name} </h2>
+        <p> (${user.score}) points </p>`
+
+    if (STATE_room.status === 'active') {
+        //check if user has a response
+    }
+    footerEl.appendChild(userEl)
+}
 
 

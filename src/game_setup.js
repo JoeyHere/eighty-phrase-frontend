@@ -28,21 +28,6 @@ const setupFormHTML = () =>
             <input class="btn-success" type = "submit" value = "Submit" >
         </form>`
 
-// manages users bar
-const drawUsersBar = users => {
-    footerEl.innerHTML = ''
-    users.forEach(drawUserToBar)
-}
-
-const drawUserToBar = user => {
-    const userEl = document.createElement('div')
-    userEl.className = 'userEl'
-    userEl.innerHTML = `
-        <img class='avatar' src = "https://api.adorable.io/avatars/90/${user.name}.png" >
-        <h2> ${user.name} </h2>
-    `
-    footerEl.appendChild(userEl)
-}
 
 const drawRoomLobby = () => {
     const lobbyEl = document.createElement('div')
