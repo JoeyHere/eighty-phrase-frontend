@@ -79,6 +79,7 @@ const globalGameUpdate = () => {}
 //--------- Helper Functions ---------//
 //method to draw game state in the navbar (useful for debugging)
 const exists = elementSelector => !!document.querySelector(elementSelector)
+
 const debuggerNav = () => document.querySelector('#header-stats').innerHTML = 
         `<b>StateRoom:</b> ${JSON.stringify(STATE_room)} <br/>
         <b>StateUser:</b> ${JSON.stringify(STATE_user)} <br/>
