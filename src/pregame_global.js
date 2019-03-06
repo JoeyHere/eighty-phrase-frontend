@@ -19,7 +19,6 @@ const drawSetupForm = () => {
         quit()
     })
 }
-
 const setupFormHTML = () => 
      `  <button class='btn-sm btn-secondary'>< go back</button> 
         <form id='joinRoomForm' >
@@ -28,18 +27,21 @@ const setupFormHTML = () =>
             <input class="btn-success" type = "submit" value = "Submit" >
         </form>`
 
-
+// draw the room lobby once, once it exists there is no need to draw it again
 const drawRoomLobby = () => {
-    const lobbyEl = document.createElement('div')
-    lobbyEl.innerHTML = lobbyHTML()
-    lobbyEl.querySelector('.btn-primary').addEventListener('click', () => {
-        STATE_room.status = 'active'
-        API.updateRoom(STATE_room).then(room => API.createNewRound(room.id))
-    })
-    lobbyEl.querySelector('.btn-secondary').addEventListener('click', () => {
-        quit()
-    })
-    drawToElement(rootEl, lobbyEl)
+    if (!exists('#hostLobby')){
+        const lobbyEl = document.createElement('div')
+        lobbyEl.id = 'hostLobby'
+        lobbyEl.innerHTML = lobbyHTML()
+        lobbyEl.querySelector('.btn-primary').addEventListener('click', () => {
+            STATE_room.status = 'active'
+            API.updateRoom(STATE_room).then(room => API.createNewRound(room.id))
+        })
+        lobbyEl.querySelector('.btn-secondary').addEventListener('click', () => {
+            quit()
+        })
+        drawToElement(rootEl, lobbyEl)
+    }
 }
 const lobbyHTML = () => 
     `<br>
