@@ -1,7 +1,6 @@
 let STATE_room = undefined
 let STATE_user = undefined
 let STATE_userType = undefined
-let STATE_round = undefined
 const rootEl = document.querySelector('#root')
 const footerEl = document.querySelector('#footer')
 
@@ -29,30 +28,45 @@ const update = () => {
     // run the correct update loop depending on the user type
     if (STATE_userType === 'host'){ hostUpdate() }
     if (STATE_userType === 'client') { clientUpdate() }
+    globalUpdate()
 
-    // shared operations between Client & Host below
-    if (STATE_room) { API.getRoomById(STATE_room.id).then(storeRoom) }  //update the room with the latest from the API
+    // shared operations between Client & Host for all states
     debuggerNav() // used for debugging
 }
 setInterval(update, 1000)
 
+// run the correct update loop dependent on game state
 const hostUpdate = () => {
-    // run the correct update loop dependent on game state
-    if (STATE_room.status === 'open') { hostRoomOpenUpdate() }
+    if (STATE_room.status === 'open') { hostPreGameUpdate() }
+    if (STATE_room.status === 'active') { hostGameUpdate() }
 }
 const clientUpdate = () => {
-    // run the correct update loop dependent on game state
-    if (STATE_room.status === 'open') { clientRoomOpenUpdate() }
+    if (STATE_room.status === 'open') { clientPreGameUpdate() }
+    if (STATE_room.status === 'active') { clientGameUpdate() }
+}
+const globalUpdate = () => {
+    if(STATE_room)  {
+        if (STATE_room.status === 'open') { globalPreGameUpdate() }
+        if (STATE_room.status === 'active') { globalGameUpdate() }
+    }
 }
 
-const hostRoomOpenUpdate = () => {
+// update hosts and clients correclty during pre-game
+const hostPreGameUpdate = () => {
     drawRoomLobby()
     drawUsersBar(STATE_room.users)
     updateUsersCount()
 }
-const clientRoomOpenUpdate = () => {
+const clientPreGameUpdate = () => {
     drawClientWaiting()
 }
+const globalPreGameUpdate = () => API.getRoomById(STATE_room.id).then(storeRoom) //update the room with the latest from the API
+
+// update hosts and clients correctly during game 
+const hostGameUpdate = () => {}
+const clientGameUpdate = () => {}
+const globalGameUpdate = () => {}
+
 
 //----------------------------------------------//
 
@@ -61,9 +75,9 @@ const clientRoomOpenUpdate = () => {
 //method to draw game state in the navbar (useful for debugging)
 const debuggerNav = () => document.querySelector('#header-stats').innerHTML = 
         `<b>StateRoom:</b> ${JSON.stringify(STATE_room)} <br/>
-        <b>StateUser:</b> ${JSON.stringify(STATE_user)} 
-        <b>StateUserType: ${STATE_userType} <br/>
-        <b>StateRound:</b> ${JSON.stringify(STATE_round)}`
+        <b>StateUser:</b> ${JSON.stringify(STATE_user)} <br/>
+        <b>StateUserType:</b> ${STATE_userType} <br/>`
+
 
 const addNewUser = (name, roomCode) => {
     return API.joinRoom(name, roomCode)

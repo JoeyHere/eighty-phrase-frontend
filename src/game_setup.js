@@ -47,6 +47,10 @@ const drawUserToBar = user => {
 const drawRoomLobby = () => {
     const lobbyEl = document.createElement('div')
     lobbyEl.innerHTML = lobbyHTML()
+    lobbyEl.querySelector('.btn-primary').addEventListener('click', () => {
+        STATE_room.status = 'active'
+        API.updateRoom(STATE_room).then(room => API.createNewRound(room.id))
+    })
     lobbyEl.querySelector('.btn-secondary').addEventListener('click', () => {
         quit()
     })
