@@ -1,0 +1,25 @@
+
+
+#footer {
+    height: 15vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#footer span {
+    height: 80%;
+    width: 8vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2em;
+}
+
+.userEl {
+    text-align: center;
+}
+
+.avatar {
+    border-radius: 50px
+}

@@ -35,9 +35,10 @@ const drawUsersBar = users => {
 }
 
 const drawUserToBar = user => {
-    const userEl = document.createElement('span')
+    const userEl = document.createElement('div')
+    userEl.className = 'userEl'
     userEl.innerHTML = `
-        <img src = "https://api.adorable.io/avatars/90/${user.name}.png" >
+        <img class='avatar' src = "https://api.adorable.io/avatars/90/${user.name}.png" >
         <h2> ${user.name} </h2>
     `
     footerEl.appendChild(userEl)
