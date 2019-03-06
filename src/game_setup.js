@@ -98,13 +98,17 @@ const roomOptionHTML = () =>
 const drawClientWaiting = () => {
     const waitingEl = document.createElement('div')
     waitingEl.innerHTML = waitingHTML()
+    waitingEl.querySelector('button').addEventListener('click', () => {
+        console.log("USER QUIT")
+        //insert JOEY GLOBAL QUIT HERE
+    })
     drawElement(rootEl, waitingEl)
 }
-
 const waitingHTML = () => `
     <h2>Username: ${STATE_user.name}</h2>
     <img class = 'avatar'src = "https://api.adorable.io/avatars/90/${STATE_user.name}.png">
     <h2>Waiting for host...</h2>
+    <button class="btn-sm btn-warning">Quit Game</button>
     `
 
 const drawElement = (rootElement,appendElement) => {
