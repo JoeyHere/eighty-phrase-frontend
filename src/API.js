@@ -75,19 +75,6 @@ class API {
         fetch(`${this.roundURL}/${round.id}`)
             .then(res => res.json()).then(handleApiResponse).catch(handleError)
     }
-    
-    static createNewEvent = (round, content) => {
-        return fetch(this.eventURL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                round_id: round.id,
-                content: content
-            })
-        }).then(res => res.json()).then(handleApiResponse).catch(handleError)
-    }
 
     static deleteUser = user => {
         return fetch(`${this.userURL}/${user.id}`, { method: 'DELETE' })
