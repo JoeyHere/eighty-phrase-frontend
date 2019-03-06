@@ -26,6 +26,7 @@ const gameRouter = () => {
     } else {
         drawRoomLobby()
         drawUsersBar(STATE_room.users)
+        updateUsersCount()
     }
 }
 

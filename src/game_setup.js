@@ -56,13 +56,22 @@ const drawRoomLobby = () => {
     rootEl.appendChild(lobbyEl)
 }
 const lobbyHTML = () => 
-    `<h3> Your Room is ready! </h3>
+    `
+    <br>
+    <button class='btn-sm btn-secondary'> < go back</button> 
+    <hr>
+    <h3> Your Room is ready! </h3>
     <p> Use room code: </p>
     <h1>${STATE_room.code}</h1>
-    <button class='btn-lg btn-primary'>Start Game</button>
+    <p>Capacity:</p>
+    <h3 id="user-count"></h3>
     <hr>
-    <button class='btn-sm btn-secondary'> < go back</button> 
+    <button class='btn-lg btn-primary'>Start Game</button>
     `
+
+const updateUsersCount = () => document.querySelector('#user-count').innerHTML = 
+    `${STATE_room.users.length} / 5`
+
 
 const drawRoomOptions = () => {
     const roomOptionsEl = document.createElement('div')
