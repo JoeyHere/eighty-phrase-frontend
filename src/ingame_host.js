@@ -1,7 +1,10 @@
 const drawRoomQuestion = () => {
-    const questionEl = document.createElement('div')
-    questionEl.innerHTML = questionHTML()
-    drawToElement(rootEl, questionEl)
+    if (!exists('#questionDisplay')){
+        const questionEl = document.createElement('div')
+        questionEl.id = 'questionDisplay'
+        questionEl.innerHTML = questionHTML()
+        drawToElement(rootEl, questionEl)
+    }
 }
 const questionHTML = () =>
     `<h1>Question</h1>

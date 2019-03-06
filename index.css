@@ -19,9 +19,8 @@
     font-size: 10px;
 }
 
-.country-icon {
-    height: 10px;
-    width: 100%;
+.responded {
+    border: 6px solid #32a1ce;
 }
 
 .userEl {
