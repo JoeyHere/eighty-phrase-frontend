@@ -1,23 +1,17 @@
-// const handleError = errorObj => {
-//     alert(`i hit the error code with the error${errorObj}`)
-//     return errorObj
-// // }
+//------- Handle API Errors and Server Failiure  ------//
+const handleError = errorObj => {
+    let error = containsError(errorObj) ? errorObj : { error: 'oops something went wrong' }
+    alert(`i hit the error code with the error ${error.error}`)
+}
+const containsError = data => ('error' in data)
+const handleApiResponse = data => {
+    if (containsError(data)) {
+        return Promise.reject(data)
+    }
+    return data
+}
 
-// // const containsError = res => ('error' in res)
-
-// const handleApiResponse = res => {
-//     let data
-//     try {
-//         data = res.json() 
-//     } catch (e) {
-//         data = { error: 'oops something went wrong'}
-//     }
-//     if (data.then(containsError)) {
-//         return Promise.reject(data)
-//     }
-//     return data
-// }
-
+//------ All API requests are made by this class ------//
 class API {
     static init() {
         this.baseURL = 'http://10.218.6.158:3000/api/v1'
@@ -27,92 +21,77 @@ class API {
     }
 
     static createNewRoom = () => {
-        const options = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' }}
-        return fetch(this.roomURL, options)
-            .then(res => res.json())
+        return fetch(this.roomURL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        }).then(res => res.json()).then(handleApiResponse).catch(handleError)
     }
 
     static getRoomById = roomId => {
         return fetch(`${this.roomURL}/${roomId}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
-        }).then(res => res.json())
+        }).then(res => res.json()).then(handleApiResponse).catch(handleError)
     }
 
     static joinRoom = (name, roomCode) => {
-        const options = {
+        return fetch(this.userURL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 'name': name,
                 'code': roomCode
-                })
-        }
-        return fetch(this.userURL, options)
-            .then(res => res.json())
-            .catch(handleError)
+            })
+        }).then(res => res.json()).then(handleApiResponse).catch(handleError)
     }
 
     static updateRoom = room => {
-        const options = {
+        return fetch(`${this.roomURL}/${room.id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(room)
-        }
-        return fetch(`${this.roomURL}/${room.id}`, options)
-            .then(res => res.json())
+        }).then(res => res.json()).then(handleApiResponse).catch(handleError)
     }
 
     static createNewRound = roomId => {
-        const options = {
+        return fetch(this.roundURL, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({'room_id': roomId})
-        }
-        return fetch(this.roundURL, options)
-            .then(res => res.json())
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 'room_id': roomId })
+        }).then(res => res.json()).then(handleApiResponse).catch(handleError)
     }
 
     static updateRound = round => {
-        const options = {
+        return fetch(`${this.roundURL}/${round.id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(round)
-        }
-        return fetch(`${this.roundURL}/${round.id}`, options)
-            .then(res => res.json())
+        }).then(res => res.json()).then(handleApiResponse).catch(handleError)
     }
 
     static getRound = round => {
-        const options = {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json'},}
-        return fetch(`${this.roundURL}/${round.id}`, options)
-            .then(res => res.json())
+        fetch(`${this.roundURL}/${round.id}`)
+            .then(res => res.json()).then(handleApiResponse).catch(handleError)
     }
-
+    
     static createNewEvent = (round, content) => {
-        const options = {
+        return fetch(this.eventURL, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'},
-                  body: JSON.stringify({
-                      round_id: round.id,
-                      content: content
-                  })
-              }
-              return fetch(this.eventURL, options)
-                  .then(res => res.json())
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                round_id: round.id,
+                content: content
+            })
+        }).then(res => res.json()).then(handleApiResponse).catch(handleError)
     }
 
     static deleteUser = user => {
-        const options = {method: 'DELETE'}
-        return fetch(`${this.userURL}/${user.id}`, options)
-            .then(res => res.json())
+        return fetch(`${this.userURL}/${user.id}`, { method: 'DELETE' })
+            .then(res => res.json()).then(handleApiResponse).catch(handleError)
     }
 }
 
