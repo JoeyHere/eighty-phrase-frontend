@@ -13,6 +13,7 @@ const update = () => {
     //updateClients()
     //updateHost()
     
+    debuggerNav() // used for debugging
     gameRouter()
     if (STATE_room){ API.getRoomById(STATE_room.id).then(storeRoom) }
 }
@@ -28,6 +29,12 @@ const gameRouter = () => {
     }
 }
 
+//method to draw game state in the navbar (useful for debugging)
+const debuggerNav = () => document.querySelector('#header-stats').innerHTML = 
+        `<b>StateRoom:</b> ${JSON.stringify(STATE_room)} <br/>
+        <b>StateUser:</b> ${JSON.stringify(STATE_user)} 
+        <b>StateUserType: ${STATE_userType} <br/>
+        <b>StateRound:</b> ${JSON.stringify(STATE_round)}`
 
 
 
