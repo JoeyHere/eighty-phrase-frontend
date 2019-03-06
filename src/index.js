@@ -21,11 +21,13 @@ setInterval(update, 1000)
 
 // route the game correctly =====
 const gameRouter = () => {
-    if (STATE_room === undefined) {
-       // drawRoomOptions()
-    } else {
-        drawRoomLobby()
-        drawUsersBar(STATE_room.users)
+    if (STATE_room){
+        if (STATE_userType === 'host'){
+            drawRoomLobby()
+            drawUsersBar(STATE_room.users)}
+        else {
+            drawClientWaiting()
+        }
     }
 }
 

@@ -52,8 +52,7 @@ const drawRoomLobby = () => {
         clearRoomState()
         drawRoomOptions()
     })
-    rootEl.innerHTML = ""
-    rootEl.appendChild(lobbyEl)
+    drawElement(rootEl, lobbyEl)
 }
 const lobbyHTML = () => 
     `<h3> Your Room is ready! </h3>
@@ -78,8 +77,7 @@ const drawRoomOptions = () => {
             update()
         })
     })
-    rootEl.innerHTML = ""
-    rootEl.appendChild(roomOptionsEl)
+    drawElement(rootEl, roomOptionsEl)
 }
 
 const roomOptionHTML = () => 
@@ -88,4 +86,19 @@ const roomOptionHTML = () =>
     <button class='btn-lg btn-info'> Create New </button>
     `
 
+const drawClientWaiting = () => {
+    const waitingEl = document.createElement('div')
+    waitingEl.innerHTML = waitingHTML()
+    drawElement(rootEl, waitingEl)
+}
 
+const waitingHTML = () => `
+    <h2>Username: ${STATE_user.name}</h2>
+    <img class = 'avatar'src = "https://api.adorable.io/avatars/90/${STATE_user.name}.png">
+    <h2>Waiting for host...</h2>
+    `
+
+const drawElement = (rootElement,appendElement) => {
+    while (rootElement.firstChild) {rootElement.removeChild(rootElement.firstChild);}
+    rootElement.appendChild(appendElement)
+}
