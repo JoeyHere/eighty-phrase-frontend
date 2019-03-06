@@ -1,3 +1,23 @@
+// const handleError = errorObj => {
+//     alert(`i hit the error code with the error${errorObj}`)
+//     return errorObj
+// // }
+
+// // const containsError = res => ('error' in res)
+
+// const handleApiResponse = res => {
+//     let data
+//     try {
+//         data = res.json() 
+//     } catch (e) {
+//         data = { error: 'oops something went wrong'}
+//     }
+//     if (data.then(containsError)) {
+//         return Promise.reject(data)
+//     }
+//     return data
+// }
+
 class API {
     static init() {
         this.baseURL = 'http://10.218.6.158:3000/api/v1'
@@ -32,6 +52,7 @@ class API {
         }
         return fetch(this.userURL, options)
             .then(res => res.json())
+            .catch(handleError)
     }
 
     static updateRoom = room => {

@@ -62,8 +62,10 @@ const lobbyHTML = () =>
     <p>Capacity:</p>
     <h3 id="user-count"></h3>
     <hr>
-    <button class='btn-lg btn-primary'>Start Game</button>
-    `
+    <button type="button" class='btn btn-lg btn-primary'
+        ${STATE_room.users.length >= 2 && STATE_room.users.length <= 5 ? '' : 'disabled' }
+    >Start Game</button><br/>
+    <i>${STATE_room.users.length >= 2 && STATE_room.users.length <= 5 ? 'ready to start' : '(need 2-5 players to start)'  }</i>`
 
 const updateUsersCount = () => document.querySelector('#user-count').innerHTML = 
     `${STATE_room.users.length} / 5`
