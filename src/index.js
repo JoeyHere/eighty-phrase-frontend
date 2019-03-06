@@ -13,6 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
 const storeRoom = room => STATE_room = room
 const clearRoomState = () => STATE_room = undefined
 const storeUser = user => STATE_user = user
+const clearUserState = () => STATE_user = undefined
+const clearUserType = () => STATE_userType = undefined
+
+const clearState = () => {
+    clearRoomState()
+    clearUserState()
+    clearUserType()
+}
 
 
 //------- GAME UPDATE LOGIC & ROUTING -------//
@@ -65,4 +73,14 @@ const setRoomStatus = (room, status) => {
     room.status = status
     return API.updateRoom(room)
 }
+
+const quit = () => {
+    if (STATE_user) {API.deleteUser(STATE_user)}
+    clearState()
+    clearElement(rootEl)
+    clearElement(footerEl)
+    drawRoomOptions()
+}
+
+
 

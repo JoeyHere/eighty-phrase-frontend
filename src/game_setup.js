@@ -52,7 +52,7 @@ const drawRoomLobby = () => {
         clearRoomState()
         drawRoomOptions()
     })
-    drawElement(rootEl, lobbyEl)
+    drawToElement(rootEl, lobbyEl)
 }
 const lobbyHTML = () => 
     `
@@ -86,7 +86,7 @@ const drawRoomOptions = () => {
             update()
         })
     })
-    drawElement(rootEl, roomOptionsEl)
+    drawToElement(rootEl, roomOptionsEl)
 }
 
 const roomOptionHTML = () => 
@@ -98,7 +98,7 @@ const roomOptionHTML = () =>
 const drawClientWaiting = () => {
     const waitingEl = document.createElement('div')
     waitingEl.innerHTML = waitingHTML()
-    drawElement(rootEl, waitingEl)
+    drawToElement(rootEl, waitingEl)
 }
 
 const waitingHTML = () => `
@@ -107,7 +107,11 @@ const waitingHTML = () => `
     <h2>Waiting for host...</h2>
     `
 
-const drawElement = (rootElement,appendElement) => {
-    while (rootElement.firstChild) {rootElement.removeChild(rootElement.firstChild);}
+const drawToElement = (rootElement,appendElement) => {
+    clearElement(rootElement)
     rootElement.appendChild(appendElement)
+}
+
+const clearElement = element => {
+    while (element.firstChild) {element.removeChild(element.firstChild);}
 }

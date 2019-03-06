@@ -76,6 +76,11 @@ class API {
                   .then(res => res.json())
     }
 
+    static deleteUser = user => {
+        const options = {method: 'DELETE'}
+        return fetch(`${this.userURL}/${user.id}`, options)
+            .then(res => res.json())
+    }
 }
 
 API.init()
