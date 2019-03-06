@@ -9,6 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
     drawRoomOptions()
 })
 
+//------- Updating State Functions -------//
+const storeRoom = room => STATE_room = room
+const clearRoomState = () => STATE_room = undefined
+const storeUser = user => STATE_user = user
+
+
+//------- GAME UPDATE LOGIC & ROUTING -------//
 // runs every second and keeps game synced
 const update = () => {
     // run the correct update loop depending on the user type
@@ -39,6 +46,10 @@ const clientRoomOpenUpdate = () => {
     drawClientWaiting()
 }
 
+//----------------------------------------------//
+
+
+//--------- Helper Functions ---------//
 //method to draw game state in the navbar (useful for debugging)
 const debuggerNav = () => document.querySelector('#header-stats').innerHTML = 
         `<b>StateRoom:</b> ${JSON.stringify(STATE_room)} <br/>
@@ -46,21 +57,12 @@ const debuggerNav = () => document.querySelector('#header-stats').innerHTML =
         <b>StateUserType: ${STATE_userType} <br/>
         <b>StateRound:</b> ${JSON.stringify(STATE_round)}`
 
-
-
 const addNewUser = (name, roomCode) => {
     return API.joinRoom(name, roomCode)
     .then(storeUser)
 }
-
-const storeRoom = room => STATE_room = room
-
-const clearRoomState = () => STATE_room = undefined
-
-const storeUser = user => STATE_user = user
-
-
 const setRoomStatus = (room, status) => {
     room.status = status
     return API.updateRoom(room)
 }
+
