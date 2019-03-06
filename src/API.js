@@ -18,6 +18,7 @@ class API {
         this.roomURL = this.baseURL + `/rooms`
         this.userURL = this.baseURL + `/users`
         this.roundURL = this.baseURL + `/rounds`
+        this.respURL = this.baseURL + `/responses`
     }
 
     static createNewRoom = () => {
@@ -64,9 +65,7 @@ class API {
     static updateRound = round => {
         return fetch(`${this.roundURL}/${round.id}`, {
             method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(round)
         }).then(res => res.json()).then(handleApiResponse).catch(handleError)
     }
@@ -79,6 +78,14 @@ class API {
     static deleteUser = user => {
         return fetch(`${this.userURL}/${user.id}`, { method: 'DELETE' })
             .then(res => res.json()).then(handleApiResponse).catch(handleError)
+    }
+
+    static createResponse = response => {
+        return fetch(`${this.respURL}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(response)
+        }).then(res => res.json()).then(handleApiResponse).catch(handleError)
     }
 }
 
