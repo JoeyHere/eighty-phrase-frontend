@@ -1,17 +1,17 @@
 const drawRoomQuestion = () => {
     const questionEl = document.createElement('div')
     questionEl.innerHTML = questionHTML()
-    drawToElement(rootEl, lobbyEl)
+    drawToElement(rootEl, questionEl)
 }
 const questionHTML = () =>
     `<h1>Question</h1>
     <blockquote class="blockquote">
-        <h1 class="display-4">${STATE_room.current_round.question.content}</h3>
+        <h3>${STATE_room.current_round.question.content}</h3>
     </blockquote>
     <h3>
         <small class="text-muted">origin: </small>
         ${STATE_room.current_round.question.country.name}
-        <img class="country-icon"/>
+        (image of flag goes here)
     </h3>
 
     <br>
