@@ -24,12 +24,13 @@ const gameRouter = () => {
     if (STATE_room){
         if (STATE_userType === 'host'){
             drawRoomLobby()
-            drawUsersBar(STATE_room.users)}
+            drawUsersBar(STATE_room.users)
+            updateUsersCount()
+        }
         else {
             drawClientWaiting()
         }
     }
-}
 
 //method to draw game state in the navbar (useful for debugging)
 const debuggerNav = () => document.querySelector('#header-stats').innerHTML = 
