@@ -22,8 +22,11 @@
 .responded {
     border: 6px solid #32a1ce;
 }
+.voted {
+    border: 6px solid green;
+}
 
-.userEl {
+.avatarDiv {
     text-align: center;
 }
 

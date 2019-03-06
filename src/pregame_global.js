@@ -33,7 +33,7 @@ const drawRoomLobby = () => {
         const lobbyEl = document.createElement('div')
         lobbyEl.id = 'hostLobby'
         lobbyEl.innerHTML = lobbyHTML()
-        lobbyEl.querySelector('.btn-primary').addEventListener('click', () => {
+        lobbyEl.querySelector('#start-game').addEventListener('click', () => {
             STATE_room.status = 'active'
             API.updateRoom(STATE_room).then(room => API.createNewRound(room.id))
         })
@@ -50,17 +50,21 @@ const lobbyHTML = () =>
     <h3> Your Room is ready! </h3>
     <p> Use room code: </p>
     <h1 class="display-1">${STATE_room.code}</h1>
-    <p>Capacity:</p>
+    <p>Capacity  <small class="text-muted">(need 2-5 players to start)</small></p>
     <h3 id="user-count"></h3>
     <hr>
-    <button type="button" class='btn btn-lg btn-primary'
-        ${STATE_room.users.length >= 2 && STATE_room.users.length <= 5 ? '' : 'disabled' }
-    >Start Game</button><br/>
-    <i>${STATE_room.users.length >= 2 && STATE_room.users.length <= 5 ? 'ready to start' : '(need 2-5 players to start)'  }</i>`
+    <button id="start-game" type="button" class='btn btn-lg btn-primary' disabled>Start Game</button><br/>`
 
 const updateUsersCount = () => document.querySelector('#user-count').innerHTML = 
-    `${STATE_room.users.length} / 5`
+    `${STATE_room.users.length} / 5` 
 
+const updateStartBtn = () => {
+    if (STATE_room.users.length >= 2 && STATE_room.users.length <=5){
+        document.querySelector('#start-game').disabled = false
+    } else {
+        document.querySelector('#start-game').disabled = true
+    }
+}
 
 const drawRoomOptions = () => {
     const roomOptionsEl = document.createElement('div')

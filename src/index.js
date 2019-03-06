@@ -53,8 +53,10 @@ const globalUpdate = () => {
 // update hosts and clients correclty during pre-game
 const hostPreGameUpdate = () => {
     drawRoomLobby()
-    drawUsersBar(STATE_room.users)
+    removeDroppedUsers()
+    updateUsersBar(STATE_room.users)
     updateUsersCount()
+    updateStartBtn()
 }
 const clientPreGameUpdate = () => {
     drawClientWaiting()
@@ -101,20 +103,28 @@ const quit = () => {
 }
 
 // manages users bar
-const drawUsersBar = users => {
-    footerEl.innerHTML = ''
-    users.forEach(drawUserToBar)
-}
-const drawUserToBar = user => {
-    const userEl = document.createElement('div')
-    userEl.className = 'userEl'
-    userEl.innerHTML = 
-    `<img class='avatar responded' src = "https://api.adorable.io/avatars/80/${user.name}.png" >
+const updateUsersBar = users => users.forEach(updateUserInBar)
+
+const updateUserInBar = user => {
+    if (!exists(`div[data-user-id="${user.id}"]`)){
+        const userEl = document.createElement('div')
+        userEl.className = 'avatarDiv'
+        userEl.dataset.userId = user.id
+        userEl.innerHTML = 
+            `<img class='avatar' src = "https://api.adorable.io/avatars/80/${user.name}.png" >
         <h2> ${user.name} </h2>
         <p> (${user.score}) points </p>`
-
-    footerEl.appendChild(userEl)
+        footerEl.appendChild(userEl)
+    } 
 }
 
+const removeDroppedUsers = () => {
+    document.querySelectorAll('.avatarDiv').forEach(avatarDiv => {
+        avatarDivId = avatarDiv.getAttribute('data-user-id')
+        if (!STATE_room.users.find(user => user.id === avatarDivId)){
+            avatarDiv.remove()
+        }
+    })
+}
 
 
