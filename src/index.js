@@ -45,10 +45,7 @@ const clientUpdate = () => {
     if (STATE_room.status === 'active') { clientGameUpdate() }
 }
 const globalUpdate = () => {
-    if(STATE_room)  {
-        if (STATE_room.status === 'open') { globalPreGameUpdate() }
-        if (STATE_room.status === 'active') { globalGameUpdate() }
-    }
+    if(STATE_room) {  roomStateRefresh() }
 }
 
 // update hosts and clients correclty during pre-game
@@ -60,12 +57,12 @@ const hostPreGameUpdate = () => {
 const clientPreGameUpdate = () => {
     drawClientWaiting()
 }
-const globalPreGameUpdate = () => API.getRoomById(STATE_room.id).then(storeRoom) //update the room with the latest from the API
+const roomStateRefresh = () => API.getRoomById(STATE_room.id).then(storeRoom) //update the room with the latest from the API
 
 // update hosts and clients correctly during game 
 const hostGameUpdate = () => {}
 const clientGameUpdate = () => {}
-const globalGameUpdate = () => {}
+
 
 
 //----------------------------------------------//

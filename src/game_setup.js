@@ -62,7 +62,7 @@ const lobbyHTML = () =>
     <hr>
     <h3> Your Room is ready! </h3>
     <p> Use room code: </p>
-    <h1>${STATE_room.code}</h1>
+    <h1 class="display-1">${STATE_room.code}</h1>
     <p>Capacity:</p>
     <h3 id="user-count"></h3>
     <hr>
