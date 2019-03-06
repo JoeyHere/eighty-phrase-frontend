@@ -64,7 +64,9 @@ const globalPreGameUpdate = () => API.getRoomById(STATE_room.id).then(storeRoom)
 
 // update hosts and clients correctly during game 
 const hostGameUpdate = () => {}
-const clientGameUpdate = () => {}
+const clientGameUpdate = () => {
+    drawClientQuestionInput()
+}
 const globalGameUpdate = () => {}
 
 
