@@ -9,28 +9,35 @@ document.addEventListener('DOMContentLoaded', () => {
     drawRoomOptions()
 })
 
+// runs every second and keeps game synced
 const update = () => {
-    //updateClients()
-    //updateHost()
-    
+    // run the correct update loop depending on the user type
+    if (STATE_userType === 'host'){ hostUpdate() }
+    if (STATE_userType === 'client') { clientUpdate() }
+
+    // shared operations between Client & Host below
+    if (STATE_room) { API.getRoomById(STATE_room.id).then(storeRoom) }  //update the room with the latest from the API
     debuggerNav() // used for debugging
-    gameRouter()
-    if (STATE_room){ API.getRoomById(STATE_room.id).then(storeRoom) }
 }
 setInterval(update, 1000)
 
-// route the game correctly =====
-const gameRouter = () => {
-    if (STATE_room){
-        if (STATE_userType === 'host'){
-            drawRoomLobby()
-            drawUsersBar(STATE_room.users)
-            updateUsersCount()
-        }
-        else {
-            drawClientWaiting()
-        }
-    }
+const hostUpdate = () => {
+    // run the correct update loop dependent on game state
+    if (STATE_room.status === 'open') { hostRoomOpenUpdate() }
+}
+const clientUpdate = () => {
+    // run the correct update loop dependent on game state
+    if (STATE_room.status === 'open') { clientRoomOpenUpdate() }
+}
+
+const hostRoomOpenUpdate = () => {
+    drawRoomLobby()
+    drawUsersBar(STATE_room.users)
+    updateUsersCount()
+}
+const clientRoomOpenUpdate = () => {
+    drawClientWaiting()
+}
 
 //method to draw game state in the navbar (useful for debugging)
 const debuggerNav = () => document.querySelector('#header-stats').innerHTML = 
