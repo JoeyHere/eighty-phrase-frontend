@@ -26,9 +26,9 @@ const clearState = () => {
 // runs every second and keeps game synced
 const update = () => {
     // run the correct update loop depending on the user type
+    globalUpdate()
     if (STATE_userType === 'host'){ hostUpdate() }
     if (STATE_userType === 'client') { clientUpdate() }
-    globalUpdate()
 
     // shared operations between Client & Host for all states
     debuggerNav() // used for debugging
