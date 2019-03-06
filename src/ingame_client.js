@@ -5,12 +5,10 @@ const drawClientQuestionInput = () => {
     questionInputEl.innerHTML = questionInputHTML()
     questionInputEl.querySelector('form').addEventListener('submit', event => {
         event.preventDefault()
-        let response = `{
-            user_id: ${STATE_user.id},
-            round_id: ${STATE_room.current_round.round_id},
-            content: ${event.target}.
-        }`
+        const response = {user_id: STATE_user.id,round_id: STATE_room.current_round.id,
+        content: event.target.answer.value}
         API.createResponse(response)
+        questionInputEl.innerHTML = questionWaitingHTML()
     })
     drawToElement(rootEl, questionInputEl)}
 }
@@ -23,3 +21,7 @@ const questionInputHTML = () => `
             <input class="btn-success" type="submit" value="Submit" >
         </form>
     `
+
+const questionWaitingHTML = () => `
+    <img class = 'avatar'src = "https://api.adorable.io/avatars/30/${STATE_user.name}.png">
+        <p>Waiting for others to respond...</p>`
