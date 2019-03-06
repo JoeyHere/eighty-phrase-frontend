@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //------- Updating State Functions -------//
 const storeRoom = room => STATE_room = room
-const clearRoomState = () => STATE_room = undefined
 const storeUser = user => STATE_user = user
+const clearRoomState = () => STATE_room = undefined
 const clearUserState = () => STATE_user = undefined
 const clearUserType = () => STATE_userType = undefined
 

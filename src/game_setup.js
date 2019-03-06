@@ -16,7 +16,7 @@ const drawSetupForm = () => {
             })
     })
     formContainerEl.querySelector('.btn-secondary').addEventListener('click', () => {
-        drawRoomOptions()
+        quit()
     })
 }
 
@@ -44,19 +44,16 @@ const drawUserToBar = user => {
     footerEl.appendChild(userEl)
 }
 
-
 const drawRoomLobby = () => {
     const lobbyEl = document.createElement('div')
     lobbyEl.innerHTML = lobbyHTML()
     lobbyEl.querySelector('.btn-secondary').addEventListener('click', () => {
-        clearRoomState()
-        drawRoomOptions()
+        quit()
     })
     drawToElement(rootEl, lobbyEl)
 }
 const lobbyHTML = () => 
-    `
-    <br>
+    `<br>
     <button class='btn-sm btn-secondary'> < go back</button> 
     <hr>
     <h3> Your Room is ready! </h3>
