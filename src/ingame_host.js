@@ -146,10 +146,7 @@ const drawEndGameButton = () => {
     }
 }
 
-const updateScore = responseId => {
-    const response = STATE_room.current_round.responses.find(resp => {
-        return resp.id === responseId
-    })
+const updateScore = response => {
     const responseUser = STATE_room.users.find(u => {
         return u.id === response.user_id
     })
@@ -167,6 +164,6 @@ const updateScore = responseId => {
             responseUser.score += 50
         }
         API.updateUser(user)
-            .then(updateUser(responseUser))
+            
     })
 }
