@@ -19,6 +19,7 @@ class API {
         this.userURL = this.baseURL + `/users`
         this.roundURL = this.baseURL + `/rounds`
         this.respURL = this.baseURL + `/responses`
+        this.voteURL = this.baseURL + `/votes`
     }
 
     static createNewRoom = () => {
@@ -87,6 +88,16 @@ class API {
             body: JSON.stringify(response)
         }).then(res => res.json()).then(handleApiResponse).catch(handleError)
     }
+
+    static createVote = (userId, responseID) => {
+        const vote = {user_Id: userId, response_Id: responseID}
+        return fetch(`${this.voteURL}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(vote)
+        }).then(res => res.json()).then(handleApiResponse).catch(handleError)
+    }
+    
 }
 
 API.init()
