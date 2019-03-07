@@ -107,3 +107,28 @@ const drawEndGameButton = () => {
     }
 }
 
+const updateScore = responseId => {
+    const response = STATE_room.current_round.responses.find(resp => {
+        return resp.id === responseId
+    })
+    const responseUser = STATE_room.users.find(u => {
+        return u.id === response.user_id
+    })
+    const responseVotes = STATE_room.current_round.votes.filter(vote =>{
+        return vote.response_id === response.id
+    })
+    debugger
+    responseVotes.forEach(vote => {
+        const user = STATE_room.users.find(u => {
+            return u.id === vote.user_id
+        })
+        if (response.kind === 'answer') {user.score += 100}
+        if (response.kind === 'fake') {user.score -= 50}
+        if (response.kind === 'user') {
+            user.score -= 50
+            responseUser.score += 50
+        }
+        API.updateUser(user)
+            // .then(updateUser(responseUser))
+    })
+}
