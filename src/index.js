@@ -9,7 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 //------- Updating State Functions -------//
-const storeRoom = room => STATE_room = room
+const storeRoom = room => {
+    if (room !== undefined){ STATE_room = room }
+} 
 const storeUser = user => STATE_user = user
 const clearRoomState = () => STATE_room = undefined
 const clearUserState = () => STATE_user = undefined
@@ -63,6 +65,8 @@ const roomStateRefresh = () => API.getRoomById(STATE_room.id).then(storeRoom) //
 // update hosts and clients correctly during game 
 const hostGameUpdate = () => {
     drawRoomQuestion()
+    if (STATE_room.current_round.status === 'question') { drawQuestionAssets()  }
+    if (STATE_room.current_round.status === 'vote') { drawVoteAssets() }
 }
 const clientGameUpdate = () => {
     if (STATE_room.current_round.status === 'question') {drawClientQuestionInput()}
