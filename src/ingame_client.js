@@ -29,10 +29,8 @@ const questionWaitingHTML = () => `
 
 const getResponses = () => {
     let responses = STATE_room.current_round.responses
-    let answer = STATE_room.current_round.question.answer
-    let fakeAnswer = STATE_room.current_round.question.fake_answer
-    let randomArr = [answer, fakeAnswer, ...responses]
-    return randomArr
+    let randArr = [...responses].shuffle()
+    return randArr
 }
 
 const drawClientVoteInput = () => {
