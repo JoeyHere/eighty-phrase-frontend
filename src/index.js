@@ -26,9 +26,6 @@ const clearState = () => {
 // runs every second and keeps game synced
 const update = () => {
     globalUpdate()
-
-    // run the correct update loop depending on the user type
-    globalUpdate()
     if (STATE_userType === 'host'){ hostUpdate() }
     if (STATE_userType === 'client') { clientUpdate() }
 
@@ -39,6 +36,8 @@ setInterval(update, 1000)
 
 // run the correct update loop dependent on game state
 const hostUpdate = () => {
+    removeDroppedUsers()
+    updateUsersBar(STATE_room.users)
     if (STATE_room.status === 'open') { hostPreGameUpdate() }
     if (STATE_room.status === 'active') { hostGameUpdate() }
 }
@@ -47,14 +46,12 @@ const clientUpdate = () => {
     if (STATE_room.status === 'active') { clientGameUpdate() }
 }
 const globalUpdate = () => {
-    if(STATE_room) {  roomStateRefresh() }
+    if(STATE_room) {  roomStateRefresh()}
 }
 
 // update hosts and clients correclty during pre-game
 const hostPreGameUpdate = () => {
     drawRoomLobby()
-    removeDroppedUsers()
-    updateUsersBar(STATE_room.users)
     updateUsersCount()
     updateStartBtn()
 }
@@ -70,7 +67,6 @@ const hostGameUpdate = () => {
 const clientGameUpdate = () => {
     drawClientQuestionInput()
 }
-const globalGameUpdate = () => {}
 
 
 //----------------------------------------------//
@@ -112,17 +108,23 @@ const updateUserInBar = user => {
         userEl.className = 'avatarDiv'
         userEl.dataset.userId = user.id
         userEl.innerHTML = 
-            `<img class='avatar' src = "https://api.adorable.io/avatars/80/${user.name}.png" >
+            `<img data-user-id="${user.id}" class='avatar' src = "https://api.adorable.io/avatars/80/${user.name}.png" >
         <h2> ${user.name} </h2>
         <p> (${user.score}) points </p>`
         footerEl.appendChild(userEl)
-    } 
+    } else {
+        if (STATE_room.current_round){
+            if (STATE_room.current_round.responses.find(resp => resp.user_id === user.id)){
+                document.querySelector(`img[data-user-id="${user.id}"]`).classList.add('responded')
+            }
+        }
+    }
 }
 
 const removeDroppedUsers = () => {
     document.querySelectorAll('.avatarDiv').forEach(avatarDiv => {
         avatarDivId = avatarDiv.getAttribute('data-user-id')
-        if (!STATE_room.users.find(user => user.id === avatarDivId)){
+        if (!STATE_room.users.find(user => user.id === parseInt(avatarDivId))){
             avatarDiv.remove()
         }
     })
