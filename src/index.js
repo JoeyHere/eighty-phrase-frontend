@@ -69,7 +69,8 @@ const hostGameUpdate = () => {
     if (STATE_room.current_round.status === 'vote') { drawVoteAssets() }
 }
 const clientGameUpdate = () => {
-    drawClientQuestionInput()
+    if (STATE_room.current_round.status === 'question') {drawClientQuestionInput()}
+    if (STATE_room.current_round.status === 'vote') {drawClientVoteInput()}
 }
 
 
@@ -132,6 +133,20 @@ const removeDroppedUsers = () => {
             avatarDiv.remove()
         }
     })
+}
+
+Array.prototype.shuffle = function () {
+    var input = this;
+
+    for (var i = input.length - 1; i >= 0; i--) {
+
+        var randomIndex = Math.floor(Math.random() * (i + 1));
+        var itemAtIndex = input[randomIndex];
+
+        input[randomIndex] = input[i];
+        input[i] = itemAtIndex;
+    }
+    return input;
 }
 
 

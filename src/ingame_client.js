@@ -29,19 +29,23 @@ const questionWaitingHTML = () => `
 
 const getResponses = () => {
     let responses = STATE_room.current_round.responses
-    let answer = STATE_room.current_round.question.answer
-    let fakeAnswer = STATE_room.current_round.question.fake_answer
-    let randomArr = [answer, fakeAnswer, ...responses]
-    return randomArr
+    let randArr = [...responses].shuffle()
+    return randArr
 }
 
 const drawClientVoteInput = () => {
     if (!exists('#questionVoteInput')) {
         const questionVoteInputEl = document.createElement('div')
         questionVoteInputEl.id = 'questionVoteInput'
+        questionVoteInputEl.innerHTML = "<h3>VOTE NOW!</h3>"
+        const responses = getResponses()
+        responses.forEach(response => {
+            const responseEl = document.createElement('div')
+            responseEl.innerHTML=`
+            <button class='btn btn-outline-success btn-vote'>${response.content}</button>`
+            questionVoteInputEl.appendChild(responseEl)
+        })
         
-        
-        
-        drawToElement(rootEl, questionInputEl)
+        drawToElement(rootEl, questionVoteInputEl)
     }
 }
