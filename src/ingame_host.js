@@ -39,17 +39,23 @@ const drawVoteAssets = () => {
     drawVoteOptions()
     drawVoteButton()
 }
-const drawVoteOptions = () => getResponses().forEach(drawVoteOption)
-const drawVoteOption = response => {
+const drawVoteOptions = () => {
+    if (!exists('.card-columns')) {
+        const cardColEl = document.createElement('div')
+        cardColEl.className = 'card-columns'
+        drawToElement(document.querySelector('#question-sub-content'), cardColEl)
+        getResponses().forEach(voteOption => cardColEl.appendChild(returnVoteCard(voteOption)))
+    }
+}
+const returnVoteCard = response => {
     const optionCard = document.createElement('div')
     optionCard.classList.add('card')
     optionCard.innerHTML = 
     `<div class="card-body">
         ${response.content}
     </div>`
-    document.querySelector('#question-sub-content').append(optionCard)
+    return optionCard
 } 
-
 const drawVoteButton = () => {
     if (!exists('#continueToScore')) {
         const continueToScoreBtn = document.createElement('button')
