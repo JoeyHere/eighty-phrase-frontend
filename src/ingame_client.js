@@ -37,9 +37,15 @@ const drawClientVoteInput = () => {
     if (!exists('#questionVoteInput')) {
         const questionVoteInputEl = document.createElement('div')
         questionVoteInputEl.id = 'questionVoteInput'
+        questionVoteInputEl.innerHTML = "<h3>VOTE NOW!</h3>"
+        const responses = getResponses()
+        responses.forEach(response => {
+            const responseEl = document.createElement('div')
+            responseEl.innerHTML=`
+            <button class='btn btn-outline-success btn-vote'>${response.content}</button>`
+            questionVoteInputEl.appendChild(responseEl)
+        })
         
-        
-        
-        drawToElement(rootEl, questionInputEl)
+        drawToElement(rootEl, questionVoteInputEl)
     }
 }

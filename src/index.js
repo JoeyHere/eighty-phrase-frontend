@@ -65,7 +65,8 @@ const hostGameUpdate = () => {
     drawRoomQuestion()
 }
 const clientGameUpdate = () => {
-    drawClientQuestionInput()
+    if (STATE_room.current_round.status === 'question') {drawClientQuestionInput()}
+    if (STATE_room.current_round.status === 'vote') {drawClientVoteInput()}
 }
 
 
