@@ -16,7 +16,6 @@ const storeUser = user => STATE_user = user
 const clearRoomState = () => STATE_room = undefined
 const clearUserState = () => STATE_user = undefined
 const clearUserType = () => STATE_userType = undefined
-
 const clearState = () => {
     clearRoomState()
     clearUserState()
@@ -67,6 +66,7 @@ const hostGameUpdate = () => {
     drawRoomQuestion()
     if (STATE_room.current_round.status === 'question') { drawQuestionAssets()  }
     if (STATE_room.current_round.status === 'vote') { drawVoteAssets() }
+    if(STATE_room.current_round.status === 'score') { drawScoreAssets() }
 }
 const clientGameUpdate = () => {
     if (STATE_room.current_round.status === 'question') {drawClientQuestionInput()}
@@ -122,6 +122,15 @@ const updateUserInBar = user => {
             if (STATE_room.current_round.responses.find(resp => resp.user_id === user.id)){
                 document.querySelector(`img[data-user-id="${user.id}"]`).classList.add('responded')
             }
+            if (STATE_room.current_round.votes.find(vote => vote.user_id === user.id)) {
+                document.querySelector(`img[data-user-id="${user.id}"]`).classList.remove('responded')
+                document.querySelector(`img[data-user-id="${user.id}"]`).classList.add('wiggle')
+                document.querySelector(`img[data-user-id="${user.id}"]`).classList.add('voted')
+            }
+            if (STATE_room.current_round.status === 'score') {
+                document.querySelector(`img[data-user-id="${user.id}"]`).classList.remove('wiggle')
+                document.querySelector(`img[data-user-id="${user.id}"]`).classList.remove('voted')
+            }
         }
     }
 }
@@ -136,13 +145,10 @@ const removeDroppedUsers = () => {
 }
 
 Array.prototype.shuffle = function () {
-    var input = this;
-
-    for (var i = input.length - 1; i >= 0; i--) {
-
-        var randomIndex = Math.floor(Math.random() * (i + 1));
-        var itemAtIndex = input[randomIndex];
-
+    let input = this
+    for (let i = input.length - 1; i >= 0; i--) {
+        let randomIndex = Math.floor(Math.random() * (i + 1));
+        let itemAtIndex = input[randomIndex];
         input[randomIndex] = input[i];
         input[i] = itemAtIndex;
     }

@@ -69,4 +69,41 @@ const drawVoteButton = () => {
     }   
 }
 
+// draw the assets needed during the scoring phase
+const drawScoreAssets = () => {
+    drawEndGameButton()
+    drawNewRoundButton()
+}
+const drawNewRoundButton = () => {
+    if (!exists('#newRound')) {
+        const newRoundBtn = document.createElement('button')
+        newRoundBtn.id = 'newRound'
+        newRoundBtn.classList = 'btn btn-success bt-lg'
+        newRoundBtn.innerText = 'New Round'
+        newRoundBtn.addEventListener('click', () => {
+            API.createNewRound(STATE_room.id).then(() => {
+                API.getRoomById(STATE_room.id).then(room => {
+                    storeRoom(room)
+                    clearElement(rootEl)
+                    update()
+                })
+            })
+        })
+        document.querySelector('#question-action').appendChild(newRoundBtn)
+    }
+}
+
+const drawEndGameButton = () => {
+    if (!exists('#quitGame')) {
+        const quitGameBtn = document.createElement('button')
+        quitGameBtn.id = 'quitGame'
+        quitGameBtn.classList = 'btn btn-danger bt-lg'
+        quitGameBtn.innerText = 'Quit Game'
+        quitGameBtn.addEventListener('click', () => {
+            alert('you can never leave')
+            //API.updateRound({ id: STATE_room.current_round.id, status: 'score' })
+        })
+        drawToElement(document.querySelector('#question-action'), quitGameBtn)
+    }
+}
 
