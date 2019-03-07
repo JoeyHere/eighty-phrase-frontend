@@ -89,9 +89,8 @@ class API {
         }).then(res => res.json()).then(handleApiResponse).catch(handleError)
     }
 
-    static createVote = (userId, responseID) => {
-        const vote = {user_Id: userId, response_Id: responseID}
-        return fetch(`${this.voteURL}`, {
+    static createVote = vote => {
+        return fetch(this.voteURL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(vote)

@@ -43,9 +43,19 @@ const drawClientVoteInput = () => {
             const responseEl = document.createElement('div')
             responseEl.innerHTML=`
             <button class='btn btn-outline-success btn-vote'>${response.content}</button>`
+            responseEl.querySelector('button').addEventListener('click', () => {
+                API.createVote({
+                    user_id: STATE_user.id,
+                    round_id: STATE_room.current_round.id,
+                    response_id: response.id
+                })
+            })
             questionVoteInputEl.appendChild(responseEl)
         })
-        
         drawToElement(rootEl, questionVoteInputEl)
-    }
+    }    
+
 }
+
+
+
