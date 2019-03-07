@@ -146,7 +146,6 @@ const updateScore = responseId => {
     const responseVotes = STATE_room.current_round.votes.filter(vote =>{
         return vote.response_id === response.id
     })
-    debugger
     responseVotes.forEach(vote => {
         const user = STATE_room.users.find(u => {
             return u.id === vote.user_id
@@ -158,6 +157,6 @@ const updateScore = responseId => {
             responseUser.score += 50
         }
         API.updateUser(user)
-            // .then(updateUser(responseUser))
+            .then(updateUser(responseUser))
     })
 }
