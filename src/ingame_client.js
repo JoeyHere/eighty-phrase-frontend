@@ -39,7 +39,10 @@ const drawClientVoteInput = () => {
         questionVoteInputEl.id = 'questionVoteInput'
         questionVoteInputEl.innerHTML = "<h3>VOTE NOW!</h3>"
         const responses = getResponses()
-        responses.forEach(response => {
+        const filtered = responses.filter(response => {
+            return response.user_id !== STATE_user.id
+        })
+        filtered.forEach(response => {
             const responseEl = document.createElement('div')
             responseEl.innerHTML=`
             <button class='btn btn-outline-success btn-vote'>${response.content}</button>`
@@ -49,6 +52,7 @@ const drawClientVoteInput = () => {
                     round_id: STATE_room.current_round.id,
                     response_id: response.id
                 })
+                questionVoteInputEl.innerHTML = questionWaitingHTML()
             })
             questionVoteInputEl.appendChild(responseEl)
         })
