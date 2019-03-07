@@ -115,7 +115,7 @@ const updateUserInBar = user => {
         userEl.innerHTML = 
             `<img data-user-id="${user.id}" class='avatar' src = "https://api.adorable.io/avatars/80/${user.name}.png" >
         <h2> ${user.name} </h2>
-        <p> (${user.score}) points </p>`
+        <p class="score"> ${user.score} points </p>`
         footerEl.appendChild(userEl)
     } else {
         if (STATE_room.current_round){
@@ -133,6 +133,14 @@ const updateUserInBar = user => {
             }
         }
     }
+}
+
+const updateScoresInBar = () => {
+    document.querySelectorAll('.avatarDiv').forEach(avatarDiv => {
+        user = STATE_room.users.find(user => user.id === parseInt(avatarDiv.getAttribute('data-user-id')))
+        scoreEl = avatarDiv.querySelector('.score')
+        scoreEl.innerText = ` ${user.score} points `
+    })
 }
 
 const removeDroppedUsers = () => {

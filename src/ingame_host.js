@@ -77,7 +77,10 @@ const drawScoreAssets = () => {
     drawNewRoundButton()
 }
 
-const updateResponseCards = responses => responses.forEach(updateRespCard)
+const updateResponseCards = responses => {
+    responses.forEach(updateRespCard)
+    setTimeout(updateScoresInBar, 1000)
+}
 
 // updates a card during scoring phase 
 const updateRespCard = response => {
@@ -86,6 +89,8 @@ const updateRespCard = response => {
     const votes = STATE_room.current_round.votes.filter(vote => vote.response_id === response.id)
     const voteUsers = votes.map(vote => STATE_room.users.find(user => user.id === vote.user_id))
     const voteUsersNames = voteUsers.map(user => user.name)
+
+    updateScore(response)
 
     const headerEl = document.createElement('div')
     headerEl.className = 'card-header bg-light text-dark'
@@ -105,9 +110,7 @@ const updateRespCard = response => {
         respEl.classList += ' text-white bg-success'
     }
 
-    debugger
-
-    footerEl.innerText = `voted for by: ${voteUsersNames.length > 0 ? voteUsersNames : 'No-one! Lie better...'}`
+    footerEl.innerHTML = `voted for by: ${voteUsersNames.length > 0 ? `<b>${voteUsersNames}</b>` : '<b>No-one!</b> Lie better...'}`
     respEl.prepend(headerEl)
     respEl.appendChild(footerEl)
 }
@@ -146,10 +149,7 @@ const drawEndGameButton = () => {
     }
 }
 
-const updateScore = responseId => {
-    const response = STATE_room.current_round.responses.find(resp => {
-        return resp.id === responseId
-    })
+const updateScore = response => {
     const responseUser = STATE_room.users.find(u => {
         return u.id === response.user_id
     })
@@ -167,6 +167,6 @@ const updateScore = responseId => {
             responseUser.score += 50
         }
         API.updateUser(user)
-            .then(updateUser(responseUser))
+            .then(() => { if (responseUser !== undefined) {API.updateUser(responseUser)}})
     })
 }
