@@ -3,9 +3,15 @@ const drawRoomQuestion = () => {
         const questionEl = document.createElement('div')
         questionEl.id = 'questionDisplay'
         questionEl.innerHTML = questionHTML()
+        questionEl.querySelector('button').addEventListener('click', () => {
+            API.updateRound({ id: STATE_room.current_round.id, status: 'vote' })
+        })
+
         drawToElement(rootEl, questionEl)
     }
 }
+
+
 const questionHTML = () =>
     `<h1>Question</h1>
     <blockquote class="blockquote">
@@ -15,7 +21,9 @@ const questionHTML = () =>
         <small class="text-muted">origin: </small>
         ${STATE_room.current_round.question.country.name}
         (image of flag goes here)
-    </h3>
-
+    </h3>   
+    <br/><br/>
+    <button class="btn btn-success bt-lg">Continue to Voting </button>
+        
     <br>
     `
