@@ -25,3 +25,23 @@ const questionInputHTML = () => `
 const questionWaitingHTML = () => `
     <img class = 'avatar'src = "https://api.adorable.io/avatars/30/${STATE_user.name}.png">
         <p>Waiting for others to respond...</p>`
+
+
+const getResponses = () => {
+    let responses = STATE_room.current_round.responses
+    let answer = STATE_room.current_round.question.answer
+    let fakeAnswer = STATE_room.current_round.question.fake_answer
+    let randomArr = [answer, fakeAnswer, ...responses]
+    return randomArr
+}
+
+const drawClientVoteInput = () => {
+    if (!exists('#questionVoteInput')) {
+        const questionVoteInputEl = document.createElement('div')
+        questionVoteInputEl.id = 'questionVoteInput'
+        
+        
+        
+        drawToElement(rootEl, questionInputEl)
+    }
+}
