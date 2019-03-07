@@ -49,6 +49,8 @@ const drawVoteOptions = () => {
 }
 const returnVoteCard = response => {
     const optionCard = document.createElement('div')
+    optionCard.dataset.responseId = response.id
+    optionCard.dataset.respKind = response.kind
     optionCard.classList.add('card')
     optionCard.innerHTML = 
     `<div class="card-body">
@@ -74,6 +76,33 @@ const drawScoreAssets = () => {
     drawEndGameButton()
     drawNewRoundButton()
 }
+
+const updateResponseCards = responses => responses.forEach(updateRespCard)
+
+// updates a card during scoring phase 
+const updateRespCard = response => {
+    const respEl = document.querySelector(`div[data-response-id="${response.id}"]`)
+    const sender = STATE_room.users.find(user => user.id === response.user_id)
+    const headerEl = document.createElement('div')
+    const footerEl = document.createElement('div')
+
+    if (response.kind === 'user'){ 
+        headerEl.innerText += `${sender.name}'s LIE` 
+        respEl.classList += ' text-white bg-warning'
+    }
+    if (response.kind === 'fake'){ 
+        headerEl.innerText += ` (OUR LIE)`
+        respEl.classList += ' text-white bg-danger'
+    }
+    if (response.kind === 'answer') { 
+        headerEl.innerText += ` (CORRECT ANSWER!)` 
+        respEl.classList += ' text-white bg-success'
+    }
+
+    footerEl.innerHTML = `<small class="text-muted">Voters: </small>`
+}
+
+
 const drawNewRoundButton = () => {
     if (!exists('#newRound')) {
         const newRoundBtn = document.createElement('button')

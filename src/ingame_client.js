@@ -58,7 +58,6 @@ const drawClientVoteInput = () => {
         })
         drawToElement(rootEl, questionVoteInputEl)
     }    
-
 }
 
 
