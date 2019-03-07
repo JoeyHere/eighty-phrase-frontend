@@ -83,23 +83,33 @@ const updateResponseCards = responses => responses.forEach(updateRespCard)
 const updateRespCard = response => {
     const respEl = document.querySelector(`div[data-response-id="${response.id}"]`)
     const sender = STATE_room.users.find(user => user.id === response.user_id)
+    const votes = STATE_room.current_round.votes.filter(vote => vote.response_id === response.id)
+    const voteUsers = votes.map(vote => STATE_room.users.find(user => user.id === vote.user_id))
+    const voteUsersNames = voteUsers.map(user => user.name)
+
     const headerEl = document.createElement('div')
+    headerEl.className = 'card-header bg-light text-dark'
     const footerEl = document.createElement('div')
+    footerEl.className = 'card-footer bg-light text-dark'
 
     if (response.kind === 'user'){ 
         headerEl.innerText += `${sender.name}'s LIE` 
         respEl.classList += ' text-white bg-warning'
     }
     if (response.kind === 'fake'){ 
-        headerEl.innerText += ` (OUR LIE)`
+        headerEl.innerText += ` OUR LIE`
         respEl.classList += ' text-white bg-danger'
     }
     if (response.kind === 'answer') { 
-        headerEl.innerText += ` (CORRECT ANSWER!)` 
+        headerEl.innerText += ` CORRECT ANSWER!` 
         respEl.classList += ' text-white bg-success'
     }
 
-    footerEl.innerHTML = `<small class="text-muted">Voters: </small>`
+    debugger
+
+    footerEl.innerText = `voted for by: ${voteUsersNames.length > 0 ? voteUsersNames : 'No-one! Lie better...'}`
+    respEl.prepend(headerEl)
+    respEl.appendChild(footerEl)
 }
 
 
