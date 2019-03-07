@@ -71,6 +71,14 @@ class API {
         }).then(res => res.json()).then(handleApiResponse).catch(handleError)
     }
 
+     static updateUser = user => {
+        return fetch(`${this.userURL}/${user.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(user)
+        }).then(res => res.json()).then(handleApiResponse).catch(handleError)
+    }
+
     static getRound = round => {
         fetch(`${this.roundURL}/${round.id}`)
             .then(res => res.json()).then(handleApiResponse).catch(handleError)
