@@ -25,9 +25,9 @@ const clearRoomState = () => STATE_room = undefined
 const clearUserState = () => STATE_user = undefined
 const clearUserType = () => STATE_userType = undefined
 const clearState = () => {
-    clearRoomState()
-    clearUserState()
     clearUserType()
+    clearUserState()
+    clearRoomState()
 }
 
 
@@ -39,24 +39,26 @@ const update = () => {
     if (STATE_userType === 'host'){ hostUpdate() }
     if (STATE_userType === 'client') { clientUpdate() }
 
-    // shared operations between Client & Host for all states
-    debuggerNav() // used for debugging
+    // debuggerNav() // used for debugging uncomment to add debugging to nav bar
 }
 setInterval(update, 1000)
 
 // run the correct update loop dependent on game state
 const hostUpdate = () => {
     removeDroppedUsers()
-    updateUsersBar(STATE_room.users)
+    updateUsersBar(STATE_room.users) // only updates bar if there is a change
     if (STATE_room.status === 'open') { hostPreGameUpdate() }
     if (STATE_room.status === 'active') { hostGameUpdate() }
+    if (STATE_room.status === 'closed') { hostPostGameUpdate() }
 }
 const clientUpdate = () => {
+    if (exists('#footer')) { document.querySelector('#footer').remove() }
     if (STATE_room.status === 'open') { clientPreGameUpdate() }
     if (STATE_room.status === 'active') { clientGameUpdate() }
+    if (STATE_room.status === 'closed') { quit() } // boot the client when the game ends
 }
 const globalUpdate = () => {
-    if(STATE_room) {  roomStateRefresh()}
+    if (STATE_room && STATE_room.status !== 'closed') {  roomStateRefresh()}
 }
 
 // update hosts and clients correclty during pre-game
@@ -76,22 +78,22 @@ const hostGameUpdate = () => {
     drawTimer()
     drawRoomQuestion()
     if (STATE_room.current_round.status === 'question') { 
-        drawQuestionAssets()
         if (STATE_gameTimer <= 0) {
             API.updateRound({ id: STATE_room.current_round.id, status: 'vote' })
-            STATE_gameTimer = 12
+            STATE_gameTimer = 15
         }}
     if (STATE_room.current_round.status === 'vote') { 
         drawVoteAssets() 
         if (STATE_gameTimer <= 0) {
             API.updateRound({ id: STATE_room.current_round.id, status: 'score' })
-            STATE_gameTimer = 19
+            STATE_gameTimer = 20
         }}
     if(STATE_room.current_round.status === 'score') { 
-        drawScoreAssets() 
         if (STATE_gameTimer === 18) {
-           updateResponseCards(STATE_room.current_round.responses)
+            drawScoreAssets() 
+            updateResponseCards(STATE_room.current_round.responses)
         }
+        if (STATE_gameTimer === 16) { updateScoresInBar() }
         if (STATE_gameTimer === 0) {
             API.createNewRound(STATE_room.id).then(() => {
                 API.getRoomById(STATE_room.id).then(room => {
@@ -108,6 +110,8 @@ const clientGameUpdate = () => {
     if (STATE_room.current_round.status === 'question') {drawClientQuestionInput()}
     if (STATE_room.current_round.status === 'vote') {drawClientVoteInput()}
 }
+
+const hostPostGameUpdate = () => drawFinalScores()
 
 
 //----------------------------------------------//

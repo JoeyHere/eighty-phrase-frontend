@@ -1,49 +1,10 @@
 const drawRoomQuestion = () => {
     if (!exists('#questionDisplay')){
-        STATE_gameTimer = 20
         const questionEl = document.createElement('div')
         questionEl.id = 'questionDisplay'
         questionEl.innerHTML = questionHTML()
         drawToElement(rootEl, questionEl)
     }
-}
-
-const drawFinalScores = () => {
-    const usersByScore = [...STATE_room.users].sort((a, b) => b.score - a.score)
-    drawScoreWinner(usersByScore.shift())
-    usersByScore.forEach(drawScore)
-}
-
-// appends a regular score card for a user to the page
-const drawScore = user => {
-    const scoreCard = document.createElement('div')
-    scoreCard.classList = 'card text-center'
-    scoreCard.innerHTML = `
-    <div class="card-body">
-        <p> </p>
-        <h5 class="card-title">${user.name}</h5>
-        <img class='avatar' src="https://api.adorable.io/avatars/75/${user.name}.png">
-    </div> `
-    document.querySelector('#root').appendChild(scoreCard)
-}
-
-// draws a score card for the winner to the root of the page
-const drawScoreWinner = user => {
-    const winnerCard = document.createElement('div')
-    winnerCard.classList = 'card text-center'
-    winnerCard.innerHTML = 
-    `<div class="card-header">
-        👑 Meet Your New Leader 👑
-    </div>
-    <div class="card-body">
-        <p> 👑 </p>
-        <h5 class="card-title">${user.name}</h5>
-        <img class='avatar' src="https://api.adorable.io/avatars/150/${user.name}.png">
-    </div>
-    <div class="card-footer text-muted">
-        💎 Final Score <b>${user.score}</b> 💎
-    </div>`
-    drawToElement(rootEl, winnerCard)
 }
 
 const questionHTML = () =>
@@ -60,28 +21,8 @@ const questionHTML = () =>
     <div id="question-action"></div>
     <div id="question-sub-content"></div>`
 
-// draw the assets needed during the question phase
-const drawQuestionAssets = () => drawQuestionButton()
-const drawQuestionButton = () => {
-    if (!exists('#continueToVote')) {
-        const continueToVoteBtn = document.createElement('button')
-        continueToVoteBtn.id = 'continueToVote'
-        continueToVoteBtn.classList = 'btn btn-info bt-lg'
-        continueToVoteBtn.innerText = 'Continue to Voting'
-        continueToVoteBtn.addEventListener('click', () => {
-            API.updateRound({ id: STATE_room.current_round.id, status: 'vote' })
-            STATE_gameTimer = 10
-        })
-        drawToElement(document.querySelector('#question-action'), continueToVoteBtn)
-    }   
-}
-
 // draw the assets needed during the voting phase
 const drawVoteAssets = () => {
-    drawVoteOptions()
-    drawVoteButton()
-}
-const drawVoteOptions = () => {
     if (!exists('.card-columns')) {
         const cardColEl = document.createElement('div')
         cardColEl.className = 'card-columns'
@@ -100,31 +41,23 @@ const returnVoteCard = response => {
     </div>`
     return optionCard
 } 
-const drawVoteButton = () => {
-    if (!exists('#continueToScore')) {
-        const continueToScoreBtn = document.createElement('button')
-        continueToScoreBtn.id = 'continueToScore'
-        continueToScoreBtn.classList = 'btn btn-success bt-lg'
-        continueToScoreBtn.innerText = 'Continue to Scoring'
-        continueToScoreBtn.addEventListener('click', () => {
-            API.updateRound({ id: STATE_room.current_round.id, status: 'score' })
-            STATE_gameTimer = 10
-        })
-        drawToElement(document.querySelector('#question-action'), continueToScoreBtn)
-    }   
-}
 
 // draw the assets needed during the scoring phase
 const drawScoreAssets = () => {
-    drawEndGameButton()
-    drawNewRoundButton()
+    if (!exists('#quitGame')) {
+        const quitGameBtn = document.createElement('button')
+        quitGameBtn.id = 'quitGame'
+        quitGameBtn.classList = 'btn btn-danger bt-lg'
+        quitGameBtn.innerText = 'End Game and Show Final Scores'
+        quitGameBtn.addEventListener('click', () => {
+            STATE_room.status = 'closed'
+            API.updateRoom(STATE_room)
+        })
+        drawToElement(document.querySelector('#question-action'), quitGameBtn)
+    }
 }
 
-const updateResponseCards = responses => {
-    responses.forEach(updateRespCard)
-    setTimeout(updateScoresInBar, 1000)
-}
-
+const updateResponseCards = responses => responses.forEach(updateRespCard)
 // updates a card during scoring phase 
 const updateRespCard = response => {
     const respEl = document.querySelector(`div[data-response-id="${response.id}"]`)
@@ -155,40 +88,6 @@ const updateRespCard = response => {
     respEl.prepend(headerEl)
     respEl.appendChild(footerEl)
     updateScore(response)
-}
-
-
-const drawNewRoundButton = () => {
-    if (!exists('#newRound')) {
-        const newRoundBtn = document.createElement('button')
-        newRoundBtn.id = 'newRound'
-        newRoundBtn.classList = 'btn btn-success bt-lg'
-        newRoundBtn.innerText = 'New Round'
-        newRoundBtn.addEventListener('click', () => {
-            API.createNewRound(STATE_room.id).then(() => {
-                API.getRoomById(STATE_room.id).then(room => {
-                    storeRoom(room)
-                    clearElement(rootEl)
-                    update()
-                })
-            })
-        })
-        document.querySelector('#question-action').appendChild(newRoundBtn)
-    }
-}
-
-const drawEndGameButton = () => {
-    if (!exists('#quitGame')) {
-        const quitGameBtn = document.createElement('button')
-        quitGameBtn.id = 'quitGame'
-        quitGameBtn.classList = 'btn btn-danger bt-lg'
-        quitGameBtn.innerText = 'Quit Game'
-        quitGameBtn.addEventListener('click', () => {
-            alert('you can never leave')
-            //API.updateRound({ id: STATE_room.current_round.id, status: 'score' })
-        })
-        drawToElement(document.querySelector('#question-action'), quitGameBtn)
-    }
 }
 
 const updateScore = response => {

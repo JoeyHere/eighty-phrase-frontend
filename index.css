@@ -66,6 +66,11 @@ nav {
 .avatarDiv {
     text-align: center;
 }
+.emoji{
+    font-size: 50px;
+    margin: 0px;
+    padding: 0px;
+}
 
 #root {
     text-align: center;
@@ -92,6 +97,5 @@ html {
 }
 body {
     margin-bottom: 150px;/* Margin bottom by footer height */
+    overflow: hidden;
 }
-
-
