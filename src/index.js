@@ -1,6 +1,7 @@
 let STATE_room = undefined
 let STATE_user = undefined
 let STATE_userType = undefined
+let STATE_gameTimer = 0
 const rootEl = document.querySelector('#root')
 const footerEl = document.querySelector('#footer')
 
@@ -26,6 +27,7 @@ const clearState = () => {
 //------- GAME UPDATE LOGIC & ROUTING -------//
 // runs every second and keeps game synced
 const update = () => {
+
     globalUpdate()
     if (STATE_userType === 'host'){ hostUpdate() }
     if (STATE_userType === 'client') { clientUpdate() }
@@ -37,6 +39,7 @@ setInterval(update, 1000)
 
 // run the correct update loop dependent on game state
 const hostUpdate = () => {
+    STATE_gameTimer -= 1
     removeDroppedUsers()
     updateUsersBar(STATE_room.users)
     if (STATE_room.status === 'open') { hostPreGameUpdate() }
@@ -64,8 +67,18 @@ const roomStateRefresh = () => API.getRoomById(STATE_room.id).then(storeRoom) //
 // update hosts and clients correctly during game 
 const hostGameUpdate = () => {
     drawRoomQuestion()
-    if (STATE_room.current_round.status === 'question') { drawQuestionAssets()  }
-    if (STATE_room.current_round.status === 'vote') { drawVoteAssets() }
+    if (STATE_room.current_round.status === 'question') { 
+        drawQuestionAssets()
+        if (STATE_gameTimer <= 0) {
+            API.updateRound({ id: STATE_room.current_round.id, status: 'vote' })
+            STATE_gameTimer = 10
+        }}
+    if (STATE_room.current_round.status === 'vote') { 
+        drawVoteAssets() 
+        if (STATE_gameTimer <= 0) {
+            API.updateRound({ id: STATE_room.current_round.id, status: 'score' })
+            STATE_gameTimer = 10
+        }}
     if(STATE_room.current_round.status === 'score') { drawScoreAssets() }
 }
 const clientGameUpdate = () => {
@@ -84,7 +97,8 @@ const exists = elementSelector => !!document.querySelector(elementSelector)
 const debuggerNav = () => document.querySelector('#header-stats').innerHTML = 
         `<b>StateRoom:</b> ${JSON.stringify(STATE_room)} <br/>
         <b>StateUser:</b> ${JSON.stringify(STATE_user)} <br/>
-        <b>StateUserType:</b> ${STATE_userType} <br/>`
+        <b>StateUserType:</b> ${STATE_userType} <br/>
+        <b>Timer:</b> ${STATE_gameTimer} <br/>`
 
 
 const addNewUser = (name, roomCode) => {

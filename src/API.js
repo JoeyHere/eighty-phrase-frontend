@@ -14,7 +14,7 @@ const handleApiResponse = data => {
 //------ All API requests are made by this class ------//
 class API {
     static init() {
-        this.baseURL = 'http://10.218.3.182:3000/api/v1'
+        this.baseURL = 'http://10.218.0.90:3000/api/v1'
         this.roomURL = this.baseURL + `/rooms`
         this.userURL = this.baseURL + `/users`
         this.roundURL = this.baseURL + `/rounds`

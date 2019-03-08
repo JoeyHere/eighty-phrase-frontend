@@ -1,5 +1,6 @@
 const drawRoomQuestion = () => {
     if (!exists('#questionDisplay')){
+        STATE_gameTimer = 20
         const questionEl = document.createElement('div')
         questionEl.id = 'questionDisplay'
         questionEl.innerHTML = questionHTML()
