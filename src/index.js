@@ -39,7 +39,6 @@ setInterval(update, 1000)
 
 // run the correct update loop dependent on game state
 const hostUpdate = () => {
-    STATE_gameTimer -= 1
     removeDroppedUsers()
     updateUsersBar(STATE_room.users)
     if (STATE_room.status === 'open') { hostPreGameUpdate() }
@@ -66,6 +65,7 @@ const roomStateRefresh = () => API.getRoomById(STATE_room.id).then(storeRoom) //
 
 // update hosts and clients correctly during game 
 const hostGameUpdate = () => {
+    STATE_gameTimer -= 1
     drawRoomQuestion()
     if (STATE_room.current_round.status === 'question') { 
         drawQuestionAssets()
