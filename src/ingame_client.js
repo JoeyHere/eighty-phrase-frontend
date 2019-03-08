@@ -17,7 +17,7 @@ const questionInputHTML = () => `
     <img class = 'avatar'src = "https://api.adorable.io/avatars/30/${STATE_user.name}.png">
         <p>${STATE_room.current_round.question.content}</p>
         <form id='questionInputForm' >
-            <input type="text" name="answer" placeholder="type your answer here...">
+            <input type="text" name="answer" class="upperCase" placeholder="type your answer here...">
             <input class="btn-success" type="submit" value="Submit" >
         </form>
     `
@@ -45,7 +45,7 @@ const drawClientVoteInput = () => {
         filtered.forEach(response => {
             const responseEl = document.createElement('div')
             responseEl.innerHTML=`
-            <button class='btn btn-outline-success btn-vote'>${response.content}</button>`
+            <button class='btn btn-outline-success btn-vote upperCase'>${response.content}</button>`
             responseEl.querySelector('button').addEventListener('click', () => {
                 API.createVote({
                     user_id: STATE_user.id,
