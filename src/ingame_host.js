@@ -7,6 +7,45 @@ const drawRoomQuestion = () => {
         drawToElement(rootEl, questionEl)
     }
 }
+
+const drawFinalScores = () => {
+    const usersByScore = [...STATE_room.users].sort((a, b) => b.score - a.score)
+    drawScoreWinner(usersByScore.shift())
+    usersByScore.forEach(drawScore)
+}
+
+// appends a regular score card for a user to the page
+const drawScore = user => {
+    const scoreCard = document.createElement('div')
+    scoreCard.classList = 'card text-center'
+    scoreCard.innerHTML = `
+    <div class="card-body">
+        <p> </p>
+        <h5 class="card-title">${user.name}</h5>
+        <img class='avatar' src="https://api.adorable.io/avatars/75/${user.name}.png">
+    </div> `
+    document.querySelector('#root').appendChild(scoreCard)
+}
+
+// draws a score card for the winner to the root of the page
+const drawScoreWinner = user => {
+    const winnerCard = document.createElement('div')
+    winnerCard.classList = 'card text-center'
+    winnerCard.innerHTML = 
+    `<div class="card-header">
+        👑 Meet Your New Leader 👑
+    </div>
+    <div class="card-body">
+        <p> 👑 </p>
+        <h5 class="card-title">${user.name}</h5>
+        <img class='avatar' src="https://api.adorable.io/avatars/150/${user.name}.png">
+    </div>
+    <div class="card-footer text-muted">
+        💎 Final Score <b>${user.score}</b> 💎
+    </div>`
+    drawToElement(rootEl, winnerCard)
+}
+
 const questionHTML = () =>
     `<blockquote class="blockquote text-center">
         <h3>${STATE_room.current_round.question.content}</h3>
