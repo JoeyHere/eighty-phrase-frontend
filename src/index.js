@@ -85,7 +85,7 @@ const hostGameUpdate = () => {
         drawVoteAssets() 
         if (STATE_gameTimer <= 0) {
             API.updateRound({ id: STATE_room.current_round.id, status: 'score' })
-            STATE_gameTimer = 20
+            STATE_gameTimer = 19
         }}
     if(STATE_room.current_round.status === 'score') { 
         drawScoreAssets() 
@@ -93,7 +93,6 @@ const hostGameUpdate = () => {
            updateResponseCards(STATE_room.current_round.responses)
         }
         if (STATE_gameTimer === 0) {
-            updateResponseCards(STATE_room.current_round.responses)
             API.createNewRound(STATE_room.id).then(() => {
                 API.getRoomById(STATE_room.id).then(room => {
                     storeRoom(room)

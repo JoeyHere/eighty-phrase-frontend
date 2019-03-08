@@ -83,7 +83,7 @@ const drawScoreAssets = () => {
 
 const updateResponseCards = responses => {
     responses.forEach(updateRespCard)
-    setTimeout(updateScore, 1000)
+    setTimeout(updateScoresInBar, 1000)
 }
 
 // updates a card during scoring phase 
