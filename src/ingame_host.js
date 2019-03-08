@@ -9,6 +9,7 @@ const drawRoomQuestion = () => {
 }
 const questionHTML = () =>
     `<blockquote class="blockquote text-center">
+        <h1 id='timer'></h1>
         <h3>${STATE_room.current_round.question.content}</h3>
         <footer class="blockquote-footer"> 
         Origin: 
@@ -82,7 +83,7 @@ const drawScoreAssets = () => {
 
 const updateResponseCards = responses => {
     responses.forEach(updateRespCard)
-    setTimeout(updateScoresInBar, 1000)
+    setTimeout(updateScore, 1000)
 }
 
 // updates a card during scoring phase 
@@ -92,8 +93,6 @@ const updateRespCard = response => {
     const votes = STATE_room.current_round.votes.filter(vote => vote.response_id === response.id)
     const voteUsers = votes.map(vote => STATE_room.users.find(user => user.id === vote.user_id))
     const voteUsersNames = voteUsers.map(user => user.name)
-
-    updateScore(response)
 
     const headerEl = document.createElement('div')
     headerEl.className = 'card-header bg-light text-dark'
@@ -116,6 +115,7 @@ const updateRespCard = response => {
     footerEl.innerHTML = `voted for by: ${voteUsersNames.length > 0 ? `<b>${voteUsersNames}</b>` : '<b>No-one!</b> Lie better...'}`
     respEl.prepend(headerEl)
     respEl.appendChild(footerEl)
+    updateScore(response)
 }
 
 
@@ -169,7 +169,13 @@ const updateScore = response => {
             user.score -= 50
             responseUser.score += 50
         }
-        API.updateUser(user)
+        return API.updateUser(user)
             .then(() => { if (responseUser !== undefined) {API.updateUser(responseUser)}})
     })
+}
+
+const drawTimer = () => {
+    if (STATE_gameTimer >= 0 && document.querySelector('#timer')) {
+        document.querySelector('#timer').innerText = STATE_gameTimer
+    }
 }

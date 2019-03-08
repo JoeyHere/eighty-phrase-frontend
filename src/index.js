@@ -65,7 +65,8 @@ const roomStateRefresh = () => API.getRoomById(STATE_room.id).then(storeRoom) //
 
 // update hosts and clients correctly during game 
 const hostGameUpdate = () => {
-    STATE_gameTimer -= 1
+    downTimer()
+    drawTimer()
     drawRoomQuestion()
     if (STATE_room.current_round.status === 'question') { 
         drawQuestionAssets()
@@ -77,9 +78,25 @@ const hostGameUpdate = () => {
         drawVoteAssets() 
         if (STATE_gameTimer <= 0) {
             API.updateRound({ id: STATE_room.current_round.id, status: 'score' })
-            STATE_gameTimer = 10
+            STATE_gameTimer = 20
         }}
-    if(STATE_room.current_round.status === 'score') { drawScoreAssets() }
+    if(STATE_room.current_round.status === 'score') { 
+        drawScoreAssets() 
+        if (STATE_gameTimer === 18) {
+           updateResponseCards(STATE_room.current_round.responses)
+        }
+        if (STATE_gameTimer === 0) {
+            updateResponseCards(STATE_room.current_round.responses)
+            API.createNewRound(STATE_room.id).then(() => {
+                API.getRoomById(STATE_room.id).then(room => {
+                    storeRoom(room)
+                    clearElement(rootEl)
+                    update()
+                })
+            })
+            
+        }
+    }
 }
 const clientGameUpdate = () => {
     if (STATE_room.current_round.status === 'question') {drawClientQuestionInput()}
@@ -177,4 +194,6 @@ Array.prototype.shuffle = function () {
     return input;
 }
 
-
+const downTimer = () => {
+    STATE_gameTimer -= 1
+}
