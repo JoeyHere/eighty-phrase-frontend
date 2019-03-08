@@ -22,9 +22,9 @@ const drawSetupForm = () => {
 const setupFormHTML = () => 
      `  <button class='btn-sm btn-secondary'>< go back</button> 
         <form id='joinRoomForm' >
-            <input type = "text" class="upperCase"name = "name" placeholder = "Name" >
-            <input type = "text" class="upperCase" name = "code" placeholder = "Room Code">
-            <input class="btn-success" type = "submit" value = "Submit" >
+            <input type = "text"  maxlength="12" class="upperCase" name="name" placeholder = "Name" >
+            <input type = "text" class="upperCase" name="code" maxlength="4" placeholder="Room Code">
+            <input class="btn-success" type="submit" value="Submit" >
         </form>`
 
 // draw the room lobby once, once it exists there is no need to draw it again

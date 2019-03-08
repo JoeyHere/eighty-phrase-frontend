@@ -4,9 +4,16 @@ let STATE_userType = undefined
 const rootEl = document.querySelector('#root')
 const footerEl = document.querySelector('#footer')
 
+// 
 document.addEventListener('DOMContentLoaded', () => { 
     drawRoomOptions()
 })
+// handle disconnects by users
+$(window).on('beforeunload',  () => {
+    quit()
+    return null
+})
+
 
 //------- Updating State Functions -------//
 const storeRoom = room => {
