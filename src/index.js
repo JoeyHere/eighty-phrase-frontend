@@ -79,7 +79,7 @@ const hostGameUpdate = () => {
         drawQuestionAssets()
         if (STATE_gameTimer <= 0) {
             API.updateRound({ id: STATE_room.current_round.id, status: 'vote' })
-            STATE_gameTimer = 10
+            STATE_gameTimer = 12
         }}
     if (STATE_room.current_round.status === 'vote') { 
         drawVoteAssets() 
