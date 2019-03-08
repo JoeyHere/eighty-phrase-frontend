@@ -75,6 +75,10 @@ nav {
     border-radius: 50px
 }
 
+.userAnswer {
+    width: 70%;
+}
+
 .btn-vote {
     width: 70%;
     margin-bottom: 5px
