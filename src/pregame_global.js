@@ -22,8 +22,8 @@ const drawSetupForm = () => {
 const setupFormHTML = () => 
      `  <button class='btn-sm btn-secondary'>< go back</button> 
         <form id='joinRoomForm' >
-            <input type = "text" name = "name" placeholder = "Name" >
-            <input type = "text" name = "code" placeholder = "Room Code">
+            <input type = "text" class="upperCase"name = "name" placeholder = "Name" >
+            <input type = "text" class="upperCase" name = "code" placeholder = "Room Code">
             <input class="btn-success" type = "submit" value = "Submit" >
         </form>`
 
@@ -98,9 +98,9 @@ const drawClientWaiting = () => {
     drawToElement(rootEl, waitingEl)
 }
 const waitingHTML = () => `
-    <h2>Username: ${STATE_user.name}</h2>
+    <h2 class="upperCase"> ${STATE_user.name}</h2>
     <img class = 'avatar'src = "https://api.adorable.io/avatars/90/${STATE_user.name}.png">
-    <h2>Waiting for host...</h2>
+    <p>Waiting for host...</p>
     <button class="btn-sm btn-warning">Quit Game</button>
     `
 

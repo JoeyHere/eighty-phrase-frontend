@@ -113,9 +113,9 @@ const updateUserInBar = user => {
         userEl.className = 'avatarDiv'
         userEl.dataset.userId = user.id
         userEl.innerHTML = 
-            `<img data-user-id="${user.id}" class='avatar' src = "https://api.adorable.io/avatars/80/${user.name}.png" >
-        <h2> ${user.name} </h2>
-        <p class="score"> ${user.score} points </p>`
+            `<h5 class="upperCase"> ${user.name} </h5>
+            <img data-user-id="${user.id}" class='avatar' src = "https://api.adorable.io/avatars/60/${user.name}.png" >
+            <p class="score"> ${user.score} points </p>`
         footerEl.appendChild(userEl)
     } else {
         if (STATE_room.current_round){

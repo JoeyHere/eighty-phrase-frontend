@@ -53,7 +53,7 @@ const returnVoteCard = response => {
     optionCard.dataset.respKind = response.kind
     optionCard.classList.add('card')
     optionCard.innerHTML = 
-    `<div class="card-body">
+    `<div class="card-body upperCase">
         ${response.content}
     </div>`
     return optionCard
