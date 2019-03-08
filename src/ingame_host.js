@@ -1,5 +1,6 @@
 const drawRoomQuestion = () => {
     if (!exists('#questionDisplay')){
+        STATE_gameTimer = 20
         const questionEl = document.createElement('div')
         questionEl.id = 'questionDisplay'
         questionEl.innerHTML = questionHTML()
@@ -29,6 +30,7 @@ const drawQuestionButton = () => {
         continueToVoteBtn.innerText = 'Continue to Voting'
         continueToVoteBtn.addEventListener('click', () => {
             API.updateRound({ id: STATE_room.current_round.id, status: 'vote' })
+            STATE_gameTimer = 10
         })
         drawToElement(document.querySelector('#question-action'), continueToVoteBtn)
     }   
@@ -66,6 +68,7 @@ const drawVoteButton = () => {
         continueToScoreBtn.innerText = 'Continue to Scoring'
         continueToScoreBtn.addEventListener('click', () => {
             API.updateRound({ id: STATE_room.current_round.id, status: 'score' })
+            STATE_gameTimer = 10
         })
         drawToElement(document.querySelector('#question-action'), continueToScoreBtn)
     }   
