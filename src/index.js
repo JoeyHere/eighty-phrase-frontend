@@ -174,7 +174,7 @@ const updateUserInBar = user => {
 
 const updateScoresInBar = () => {
     document.querySelectorAll('.avatarDiv').forEach(avatarDiv => {
-        user = STATE_room.users.find(user => user.id === parseInt(avatarDiv.getAttribute('data-user-id')))
+        user = STATE_room.users.find(user => user.id === parseInt(avatarDiv.getAttribute('data-user-id'),10))
         scoreEl = avatarDiv.querySelector('.score')
         scoreEl.innerText = ` ${user.score} points `
     })
@@ -183,7 +183,7 @@ const updateScoresInBar = () => {
 const removeDroppedUsers = () => {
     document.querySelectorAll('.avatarDiv').forEach(avatarDiv => {
         avatarDivId = avatarDiv.getAttribute('data-user-id')
-        if (!STATE_room.users.find(user => user.id === parseInt(avatarDivId))){
+        if (!STATE_room.users.find(user => user.id === parseInt(avatarDivId),10)){
             avatarDiv.remove()
         }
     })
