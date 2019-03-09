@@ -20,10 +20,11 @@ const drawSetupForm = () => {
     })
 }
 const setupFormHTML = () => 
-     `  <button class='btn-sm btn-secondary'>< go back</button> 
+     `  <button class='btn-sm btn-secondary'> Go Back</button> <br/><br/>
         <form id='joinRoomForm' >
             <input type = "text"  maxlength="12" class="upperCase" name="name" placeholder = "Name" >
             <input type = "text" class="upperCase" name="code" maxlength="4" placeholder="Room Code">
+            <br/><br/>
             <input class="btn-success" type="submit" value="Submit" >
         </form>`
 
@@ -36,6 +37,7 @@ const drawRoomLobby = () => {
         lobbyEl.querySelector('#start-game').addEventListener('click', () => {
             STATE_room.status = 'active'
             API.updateRoom(STATE_room).then(room => API.createNewRound(room.id))
+                .then(() => STATE_gameTimer = 20)
         })
         lobbyEl.querySelector('.btn-secondary').addEventListener('click', () => {
             quit()
@@ -45,7 +47,7 @@ const drawRoomLobby = () => {
 }
 const lobbyHTML = () => 
     `<br>
-    <button class='btn-sm btn-secondary'> < go back</button> 
+    <button class='btn-sm btn-secondary'> Go Back</button> 
     <hr>
     <h3> Your Room is ready! </h3>
     <p> Use room code: </p>
@@ -53,7 +55,7 @@ const lobbyHTML = () =>
     <p>Capacity  <small class="text-muted">(need 2-5 players to start)</small></p>
     <h3 id="user-count"></h3>
     <hr>
-    <button id="start-game" type="button" class='btn btn-lg btn-primary' disabled>Start Game</button><br/>`
+    <button id="start-game" type="button" class='btn btn-lg btn-success' disabled>Start Game</button><br/>`
 
 const updateUsersCount = () => document.querySelector('#user-count').innerHTML = 
     `${STATE_room.users.length} / 5` 
@@ -70,7 +72,7 @@ const drawRoomOptions = () => {
     const roomOptionsEl = document.createElement('div')
     roomOptionsEl.innerHTML = roomOptionHTML()
 
-    roomOptionsEl.querySelector('.btn-primary').addEventListener('click', () => {
+    roomOptionsEl.querySelector('.btn-success').addEventListener('click', () => {
         drawSetupForm()
     })
     roomOptionsEl.querySelector('.btn-info').addEventListener('click', () => {
@@ -84,8 +86,8 @@ const drawRoomOptions = () => {
 }
 
 const roomOptionHTML = () => 
-    `<button class='btn-lg btn-primary'> Join Existing </button>
-    <p>OR</p>
+    `<button class='btn-lg btn-success'> Join Existing </button>
+    <br/><br/>
     <button class='btn-lg btn-info'> Create New </button>
     `
 
